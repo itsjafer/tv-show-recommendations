@@ -60,12 +60,14 @@ for letter in alphabet:
 
         # Add the TV Shows
         for show in tv_show_containers:
-            tv_show_titles.append(show.a.text.strip())
+            show = show.a.text.strip()
+            if (show.split(':')[-1].strip() == 'Season 1'):
+                show = show[:-10]
+            tv_show_titles.append(show)
 
-        # No more than 10 pages per letter
-        if requests > 5:
+        # No more than 15 pages per letter
+        if requests > 15:
             break
-
 with open('tv_shows.csv', 'w', newline='') as f:
         csv_writer = csv.writer(f)
         csv_writer.writerow(tv_show_titles)
