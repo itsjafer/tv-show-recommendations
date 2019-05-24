@@ -31,8 +31,6 @@ requests = 0
 tv_show_titles = list()
 
 for letter in alphabet:
-    if requests > 5:
-        break
     for page in pages:
         # Base URL
         url = 'https://www.metacritic.com/browse/tv/title/all/' + letter + '?view=condensed&page=' + page
