@@ -93,7 +93,6 @@ for show in flat_tv_shows:
     if num_ratings < 1000:
         continue
 
-
     # Number of seasons
     if (len(html_soup.find_all(class_='seasons-and-year-nav')) <= 0):
         num_seasons = 0
@@ -126,6 +125,9 @@ for show in flat_tv_shows:
     if len(html_soup.find_all(id='titleDetails')) > 0:
         for soup in html_soup.find(id='titleDetails').find_all(class_='txt-block'):
             if len(soup.find_all('a')) <= 0:
+                continue
+            detail = soup.find('a').text.strip()
+            if (detail == "IMDbPro" or detail == 'See more'):
                 continue
             details.append(soup.find('a').text.strip())
     

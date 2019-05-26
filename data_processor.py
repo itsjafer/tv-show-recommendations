@@ -39,16 +39,18 @@ def count_word(df, ref_col, liste):
     keyword_occurences.sort(key = lambda x:x[1], reverse = True)
     return keyword_occurences, keyword_count
 
-
+# We put an emphasis on keywords, cast, and details
 def create_soup(x):
-    return ' '.join(x['keywords']) + ' ' + 'seasons:'.join(x['num_seasons']) + ' ' + x['runtime']
+    return ' '.join(x['keywords']) + ' '  + ' '.join(x['keywords']) + ' ' + 'seasons:' \
+         + x['num_seasons'] + ' ' + x['runtime'] + ' ' + ' '.join(x['details']) + ' ' + \
+             ' '.join(x['details']) + ' ' + ' '.join(x['cast']) + \
+                 ' ' + x['user_rating_group'] + ' ' + ' '.join(x['synopsis'])
 
 # Function to convert all strings to lower case and strip names of spaces
 def clean_data(x):
     if isinstance(x, list):
         return [str.lower(i.replace(" ", "")) for i in x]
     else:
-        #Check if director exists. If not, return empty string
         if isinstance(x, str):
             return str.lower(x.replace(" ", ""))
         else:
@@ -56,11 +58,14 @@ def clean_data(x):
 
 def get_similar(similarity_df, title):
     count = CountVectorizer(stop_words='english')
+    tfidf = TfidfVectorizer()
 
     similarity_df['soup'] = similarity_df.apply(create_soup, axis = 1)
 
+    tfidf_matrix = tfidf.fit_transform(similarity_df['soup'])
     count_matrix = count.fit_transform(similarity_df['soup'])
 
+    cosine_sim = linear_kernel(tfidf_matrix, tfidf_matrix)
     cosine_sim2 = cosine_similarity(count_matrix, count_matrix)
 
     similarity_df = similarity_df.reset_index()
@@ -76,20 +81,40 @@ def get_similar(similarity_df, title):
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
     # Get the scores of the 50 most similar tv shows
-    sim_scores = sim_scores[1:51]
+    sim_scores = sim_scores[1:31]
 
     # Get the movie indices
     movie_indices = [i[0] for i in sim_scores]
 
     # Return the top 30 most similar movies
-    return similarity_df.iloc[movie_indices]
+    return similarity_df.iloc[movie_indices], sim_scores
+
+
+def convert_rating_to_category(x):
+    rating = x
+    result = str()
+    if rating > 9:
+        result = "masterpiece"
+    elif rating > 8:
+        result = "great"
+    elif rating > 7:
+        result = "good"
+    elif rating > 6:
+        result = "mediocre"
+    else:
+        result = "bad"
+    return result
 
 # We load the csv into a dataframe
 df = load_tv_shows('tv_shows_with_features.csv')
 
 df_analysis = df
-# Turn the keywords column into a list instead of str
-df_analysis.keywords = df_analysis.keywords.apply(literal_eval)
+# Turn some columns into a list instead of str
+list_columns = ['cast', 'details', 'keywords']
+for column in list_columns:
+    df_analysis[column] = df_analysis[column].apply(literal_eval)
+
+df_analysis['synopsis'] = df_analysis['synopsis'].apply(lambda x: x.split(' '))
 
 # Now we do some analysis
 print('Analysis of Data:')
@@ -105,16 +130,29 @@ for keywords_list in df_analysis['keywords']:
 print('\nPrinting most popular keywords...\n')
 keyword_occurences, count = count_word(df, 'keywords', keywords)
 print(keyword_occurences[:10])
+print()
 
-# Now we need to find similarity scores between keywords
-# We will use nltk to compute pairwise similarity scores for all keywords
-
-features = ['keywords', 'num_seasons', 'runtime']
+print('Cleaning Data...\n')
+features = ['cast','details','num_seasons','keywords','runtime', 'synopsis']
 for feature in features:
     df_analysis[feature] = df_analysis[feature].apply(clean_data)
-title = 'The Good Place'
 
-top_movies = get_similar(df_analysis, title)
-top_movies = top_movies.sort_values('user_rating', ascending=False)
-print(top_movies['title'].head(15))
+df_analysis['user_rating_group'] = df_analysis['user_rating'].apply(convert_rating_to_category)
+
+title = 'Black Mirror'
+
+print('Finding tv shows similar to ' + title + '...\n')
+top_movies, sim_scores = get_similar(df_analysis, title)
+
+# Add similarity scores
+
+for i in sim_scores:
+    top_movies.loc[i[0], 'similarity'] = i[1] * 100
+
+top_movies['user_rating'] = top_movies['user_rating'] * 10
+top_movies['score'] = top_movies['similarity'] * 0.2 + 0.8 * top_movies['user_rating']
+top_movies = top_movies.sort_values('score', ascending=False)
+
+print('Found the following TV Shows:\n')
+print(top_movies[['title', 'score', 'user_rating', 'similarity']].head(10))
 # Now we need to pick the 10 highest rated shows
