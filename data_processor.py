@@ -13,6 +13,10 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer # notice the spelling with the f before Vectorizer
 from sklearn.metrics.pairwise import linear_kernel
 from sklearn.metrics.pairwise import cosine_similarity
+import string
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
+from sys import stdin
 
 def load_tv_shows(path):
     df = pd.read_csv(path)
@@ -41,18 +45,20 @@ def count_word(df, ref_col, liste):
 
 # We put an emphasis on keywords, cast, and details
 def create_soup(x):
-    return ' '.join(x['keywords']) + ' '  + ' '.join(x['keywords']) + ' ' + 'seasons:' \
+    return ' '.join(x['keywords']) + ' '  + ' '.join(x['keywords']) + ' '  + ' '.join(x['keywords']) + ' ' + 'seasons:' \
          + x['num_seasons'] + ' ' + x['runtime'] + ' ' + ' '.join(x['details']) + ' ' + \
              ' '.join(x['details']) + ' ' + ' '.join(x['cast']) + \
-                 ' ' + x['user_rating_group'] + ' ' + ' '.join(x['synopsis'])
+                 ' ' + x['user_rating_group']
 
 # Function to convert all strings to lower case and strip names of spaces
 def clean_data(x):
+    translator = str.maketrans('', '', string.punctuation)
+
     if isinstance(x, list):
-        return [str.lower(i.replace(" ", "")) for i in x]
+        return [str.lower(i.replace(" ", "")).translate(translator) for i in x]
     else:
         if isinstance(x, str):
-            return str.lower(x.replace(" ", ""))
+            return str.lower(x.replace(" ", "")).translate(translator)
         else:
             return ''
 
@@ -141,18 +147,31 @@ df_analysis['user_rating_group'] = df_analysis['user_rating'].apply(convert_rati
 
 title = 'Black Mirror'
 
-print('Finding tv shows similar to ' + title + '...\n')
-top_movies, sim_scores = get_similar(df_analysis, title)
+print('Please enter the title of a TV Show')
 
-# Add similarity scores
+for title in stdin:
 
-for i in sim_scores:
-    top_movies.loc[i[0], 'similarity'] = i[1] * 100
+    titles = df_analysis['title'].tolist()
 
-top_movies['user_rating'] = top_movies['user_rating'] * 10
-top_movies['score'] = top_movies['similarity'] * 0.2 + 0.8 * top_movies['user_rating']
-top_movies = top_movies.sort_values('score', ascending=False)
+    similarTitle = process.extractOne(title, titles)[0]
 
-print('Found the following TV Shows:\n')
-print(top_movies[['title', 'score', 'user_rating', 'similarity']].head(10))
-# Now we need to pick the 10 highest rated shows
+    if (similarTitle != title):
+        print('Found "' + similarTitle + '", which was the closest match\n')
+
+    print('Finding tv shows similar to ' + similarTitle + '...\n')
+    top_movies, sim_scores = get_similar(df_analysis, similarTitle)
+
+    # Add similarity scores
+
+    for i in sim_scores:
+        top_movies.loc[i[0], 'similarity'] = i[1] * 100
+
+    top_movies['user_rating'] = top_movies['user_rating'] * 10
+    top_movies['score'] = top_movies['similarity'] * 0.4 + 0.6 * top_movies['user_rating']
+    top_movies = top_movies.sort_values('score', ascending=False)
+
+    print('Found the following TV Shows:\n')
+    print(top_movies[['title', 'score', 'user_rating', 'similarity']].head(10))
+
+    print('\nPlease enter the title of a TV Show')
+

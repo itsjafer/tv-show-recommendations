@@ -31,7 +31,7 @@ start_time = time()
 requests = 0
 tv_shows = list()
 
-columns = ('title', 'cast', 'details', 'num_seasons', 'user_rating', 'num_ratings', 'keywords', 'runtime', 'synopsis')
+columns = ('title', 'cast', 'details', 'num_seasons', 'user_rating', 'num_ratings', 'keywords', 'runtime', 'synopsis', 'plot')
 with open('tv_shows_with_features.csv', 'a') as f:
             csv_writer = csv.writer(f)
             csv_writer.writerow(columns)
@@ -77,6 +77,11 @@ for show in flat_tv_shows:
 
     html_soup = BeautifulSoup(response.text, 'html.parser')
 
+    # First, let's make sure this is a valid 
+    if show != html_soup.find(class_='title_wrapper').find('h1').text.strip():
+        print("Skipping show because we didn't find an exact match")
+        continue
+
     # Update progress bar and wait
     requests +=1
     elapsed_time = time() - start_time
@@ -91,6 +96,7 @@ for show in flat_tv_shows:
 
     num_ratings = float(html_soup.find(itemprop='ratingCount').text.replace(',' , '').strip())
     if num_ratings < 1000:
+        print("Skipping show because it has " + str(num_ratings) + " < 1000 ratings")
         continue
 
     # Number of seasons
@@ -148,8 +154,18 @@ for show in flat_tv_shows:
     else:
         synopsis = html_soup.find(id='titleStoryLine').find(class_='inline canwrap').find('span').text.strip()
     
+
+    # Plot
+    plot = str()
+    if len(html_soup.find_all(class_='plot_summary')) <= 0 or \
+    len(html_soup.find(class_='plot_summary').find_all(class_='summary_text')) <= 0:
+        plot = ' '
+    else:
+        plot = html_soup.find(class_='plot_summary').find(class_='summary_text').text.strip()
+
+    
     # Now we need to make a row
-    row = (show, cast, details, num_seasons, user_rating, num_ratings, keywords, length, synopsis)
+    row = (show, cast, details, num_seasons, user_rating, num_ratings, keywords, length, synopsis, plot)
         
     with open('tv_shows_with_features.csv', 'a') as f:
             csv_writer = csv.writer(f)
