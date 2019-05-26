@@ -51,7 +51,6 @@ for show in flat_tv_shows:
 
     # Update progress bar and wait
     requests +=1
-    sleep(randint(1,3))
     elapsed_time = time() - start_time
     print('Request: {}; Frequency: {} requests/s'.format(requests, requests/elapsed_time))
     clear_output(wait = True)
@@ -73,7 +72,6 @@ for show in flat_tv_shows:
 
     # Update progress bar and wait
     requests +=1
-    sleep(randint(1,3))
     elapsed_time = time() - start_time
     print('Request: {}; Frequency: {} requests/s'.format(requests, requests/elapsed_time))
     clear_output(wait = True)
@@ -87,7 +85,7 @@ for show in flat_tv_shows:
         num_seasons = html_soup.find(class_='seasons-and-year-nav').find('a').text
     
     # User rating
-    if (len(html_soup.find(itemprop='ratingValue')) <= 0):
+    if (len(html_soup.find_all(itemprop='ratingValue')) <= 0):
         user_rating = 0
     else:
         user_rating = html_soup.find(itemprop='ratingValue').text
@@ -110,10 +108,7 @@ for show in flat_tv_shows:
     # Now we need to make a row
     row = (show, num_seasons, user_rating, keywords, length)
     tv_shows_with_features.append(row)
-
-    if requests > 15:
-        break
-
-print(tv_shows_with_features)
-    
-
+        
+    with open('tv_shows_with_features.csv', 'a') as f:
+            csv_writer = csv.writer(f)
+            csv_writer.writerow(row)

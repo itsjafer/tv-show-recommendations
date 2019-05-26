@@ -19,16 +19,13 @@ headers = \
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     }
 
-# We will look at first 5 pages of every letter in the alphabet
-pages = [str(i) for i in range(0,5)]
+# We will look at first 20 pages of every letter in the alphabet
+pages = [str(i) for i in range(0,20)]
 alphabet = list(string.ascii_lowercase)
 
 # We use this to keep track of time and requests
 start_time = time()
 requests = 0
-
-# Create a list of tv show titles we will use
-tv_show_titles = list()
 
 for letter in alphabet:
     for page in pages:
@@ -46,7 +43,6 @@ for letter in alphabet:
 
         # Update progress bar and wait
         requests +=1
-        sleep(randint(1,3))
         elapsed_time = time() - start_time
         print('Request: {}; Frequency: {} requests/s'.format(requests, requests/elapsed_time))
         clear_output(wait = True)
@@ -60,14 +56,11 @@ for letter in alphabet:
 
         # Add the TV Shows
         for show in tv_show_containers:
+            row = list()
             show = show.a.text.strip()
             if (show.split(':')[-1].strip() == 'Season 1'):
                 show = show[:-10]
-            tv_show_titles.append(show)
-
-        # No more than 15 pages per letter
-        if requests > 15:
-            break
-with open('tv_shows.csv', 'w', newline='') as f:
-        csv_writer = csv.writer(f)
-        csv_writer.writerow(tv_show_titles)
+            row.append(show)
+            with open('tv_shows.csv', 'a') as f:
+                csv_writer = csv.writer(f)
+                csv_writer.writerow(row)
