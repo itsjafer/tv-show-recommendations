@@ -2,10 +2,13 @@
 # We'll query imdb and then pick the first result (this is problematic)
 # Then, we can get the following information:
 #   * Number of seasons
-#   * User rating
+#   * User rating (+ number of ratings)
 #   * Genres
 #   * Release date
 #   * Episode length
+#   * Director and/or producer
+#   * Cast
+#   * Synopsis
 # We will take this information and create a dataframe
 
 from bs4 import BeautifulSoup
@@ -27,7 +30,11 @@ headers = \
 start_time = time()
 requests = 0
 tv_shows = list()
-tv_shows_with_features = list()
+
+columns = ('title', 'cast', 'details', 'num_seasons', 'user_rating', 'num_ratings', 'keywords', 'runtime', 'synopsis')
+with open('tv_shows_with_features.csv', 'a') as f:
+            csv_writer = csv.writer(f)
+            csv_writer.writerow(columns)
 
 # Get list of tv show names from csv
 with open("tv_shows.csv", 'r') as f:
@@ -78,6 +85,15 @@ for show in flat_tv_shows:
 
     # Now we need to parse features
 
+    # Check if number of votes is valid
+    if len(html_soup.find_all(itemprop='ratingCount')) <= 0:
+        continue
+
+    num_ratings = float(html_soup.find(itemprop='ratingCount').text.replace(',' , '').strip())
+    if num_ratings < 1000:
+        continue
+
+
     # Number of seasons
     if (len(html_soup.find_all(class_='seasons-and-year-nav')) <= 0):
         num_seasons = 0
@@ -104,10 +120,34 @@ for show in flat_tv_shows:
         length = 0
     else:
         length = html_soup.find(id='titleDetails').find('time').text
+
+    # Miscellaneous details
+    details = list()
+    if len(html_soup.find_all(id='titleDetails')) > 0:
+        for soup in html_soup.find(id='titleDetails').find_all(class_='txt-block'):
+            if len(soup.find_all('a')) <= 0:
+                continue
+            details.append(soup.find('a').text.strip())
+    
+    cast = list()
+    # Creator + Cast
+    if len(html_soup.find_all(class_='credit_summary_item')) > 0:
+        for soup in html_soup.find_all(class_='credit_summary_item'):
+            for person in soup.find_all('a'):
+                if (person.text[:8] == 'See full'):
+                    continue
+                cast.append(person.text.strip())
+
+    # Synopsis
+    synopsis = str()
+    if len(html_soup.find_all(id='titleStoryLine')) <= 0 or \
+        len(html_soup.find(id='titleStoryLine').find_all(class_='inline canwrap')) <= 0:
+        synopsis = ' '
+    else:
+        synopsis = html_soup.find(id='titleStoryLine').find(class_='inline canwrap').find('span').text.strip()
     
     # Now we need to make a row
-    row = (show, num_seasons, user_rating, keywords, length)
-    tv_shows_with_features.append(row)
+    row = (show, cast, details, num_seasons, user_rating, num_ratings, keywords, length, synopsis)
         
     with open('tv_shows_with_features.csv', 'a') as f:
             csv_writer = csv.writer(f)

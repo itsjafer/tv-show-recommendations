@@ -1,4 +1,4 @@
-Title,num_seasons,user_rating,keywords,runtime
+title,num_seasons,user_rating,keywords,runtime
 A Bear's Tail,1,6.8,['comedy'],30 min
 A Bit of Fry and Laurie,4,8.3,"['alternative comedy', 'social satire', 'singing', 'song', 'musician', 'comedy']",30 min
 A Current Affair,40,2.2,"['media exploitation', 'gossip', 'australia', 'news']",0
