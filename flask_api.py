@@ -21,7 +21,7 @@ if (not os.path.isfile('cosine_model.pkl')):
 else:
     df_trained = pickle.load(open('cosine_model.pkl', "rb"))
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app, resources={r"/predict": {"origins": "itsjafer.com"}})
 
 @app.route('/predict', methods=['GET'])
 def predict():
@@ -43,9 +43,9 @@ def predict():
     top_shows = top_shows.set_index('index')
     
     print('Found the following TV Shows:\n')
-    prediction = top_shows.head(10)
-    
-    return prediction.to_json(orient='records')
+    prediction = (top_shows.head(10).to_json(orient='records'))
+
+    return prediction
 
 
 @app.route('/scrape', methods=['POST'])
