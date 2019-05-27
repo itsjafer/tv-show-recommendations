@@ -1,3 +1,6 @@
+# This file is an interface to use the model to get recommendations.
+# Run this file to get recommendations based on a tv show
+
 import os
 from data_processor import DataProcessor
 import pandas as pd

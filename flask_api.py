@@ -1,3 +1,6 @@
+# This file is a flask API that enables use of the model's
+# recommendations through other websites.
+
 from flask import Flask, jsonify, request
 import os
 from data_processor import DataProcessor
