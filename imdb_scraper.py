@@ -72,13 +72,13 @@ for show in flat_tv_shows:
     # Some code duplication here unfortunately
     response = get(imdb_page, headers=headers)
     if response.status_code != 200:
-        warnings.warn('Received status code, ' + response.status_code)
+        warnings.warn('Received status code, ' + str(response.status_code))
         break
 
     html_soup = BeautifulSoup(response.text, 'html.parser')
 
-    # First, let's make sure this is a valid 
-    if show != html_soup.find(class_='title_wrapper').find('h1').text.strip():
+    # First, let's make sure this is a valid match
+    if show.strip() != html_soup.find(class_='title_wrapper').find('h1').text.strip():
         print("Skipping show because we didn't find an exact match")
         continue
 
@@ -87,8 +87,6 @@ for show in flat_tv_shows:
     elapsed_time = time() - start_time
     print('Request: {}; Frequency: {} requests/s'.format(requests, requests/elapsed_time))
     clear_output(wait = True)
-
-    # Now we need to parse features
 
     # Check if number of votes is valid
     if len(html_soup.find_all(itemprop='ratingCount')) <= 0:
@@ -154,7 +152,6 @@ for show in flat_tv_shows:
     else:
         synopsis = html_soup.find(id='titleStoryLine').find(class_='inline canwrap').find('span').text.strip()
     
-
     # Plot
     plot = str()
     if len(html_soup.find_all(class_='plot_summary')) <= 0 or \
@@ -162,8 +159,9 @@ for show in flat_tv_shows:
         plot = ' '
     else:
         plot = html_soup.find(class_='plot_summary').find(class_='summary_text').text.strip()
+        skipAfter = '...'
+        plot = plot.split(skipAfter, 1)[0]
 
-    
     # Now we need to make a row
     row = (show, cast, details, num_seasons, user_rating, num_ratings, keywords, length, synopsis, plot)
         
