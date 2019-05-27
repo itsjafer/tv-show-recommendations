@@ -43,7 +43,7 @@ def predict():
     top_shows = top_shows.set_index('index')
     
     print('Found the following TV Shows:\n')
-    prediction = top_shows[['index','title', 'score', 'user_rating', 'similarity']].head(10)
+    prediction = top_shows.head(10)
     
     return prediction.to_json(orient='records')
 
