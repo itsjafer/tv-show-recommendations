@@ -33,14 +33,21 @@ def predict():
     print('Finding tv shows similar to ' + similarTitle + '...\n')
     
     # Get a list of top 30 most similar shows
-    top_movies, sim_scores = show_data_processor.get_similar(df_trained, similarTitle)
+    top_shows, sim_scores = show_data_processor.get_similar(df_trained, similarTitle)
 
     # Normalize and assign a rating based on similarity, user_rating
-    top_movies = show_data_processor.assign_score(top_movies, sim_scores)
+    top_shows = show_data_processor.assign_score(top_shows, sim_scores)
     
     print('Found the following TV Shows:\n')
-    prediction = top_movies[['title', 'score', 'user_rating', 'similarity']].head(10)
+    prediction = top_shows[['title', 'score', 'user_rating', 'similarity']].head(10)
     return prediction.to_json(orient='index')
 
-app.run(debug=True)
 
+@app.route('/scrape', methods=['POST'])
+def scrape():
+    print("Scraping data")
+    import metacritic_scraper
+    import imdb_scraper
+
+if __name__ == '__main__':
+    app.run(debug=True)

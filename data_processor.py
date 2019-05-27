@@ -91,29 +91,29 @@ class DataProcessor:
         sim_scores = sim_scores[1:51]
 
         # Get the movie indices
-        movie_indices = [i[0] for i in sim_scores]
+        show_indices = [i[0] for i in sim_scores]
 
         # Return the top 30 most similar movies
-        return df_analysis.iloc[movie_indices].copy(), sim_scores
+        return df_analysis.iloc[show_indices].copy(), sim_scores
 
-    def assign_score(self, top_movies, sim_scores):
+    def assign_score(self, top_shows, sim_scores):
         # Add similarity scores
         for i in sim_scores:
-            top_movies.loc[i[0], 'similarity'] = i[1]
+            top_shows.loc[i[0], 'similarity'] = i[1]
 
         # We're going to normalize the similarity and user_rating columns
         # Create a minimum and maximum processor object
         min_max_scaler = preprocessing.MinMaxScaler()
 
         # Normalize the data
-        top_movies['user_rating_normal']=min_max_scaler.fit_transform(top_movies[['user_rating']])
-        top_movies['similarity_normal']=min_max_scaler.fit_transform(top_movies[['similarity']])
+        top_shows['user_rating_normal']=min_max_scaler.fit_transform(top_shows[['user_rating']])
+        top_shows['similarity_normal']=min_max_scaler.fit_transform(top_shows[['similarity']])
 
         # Create a score using user rating and similarity
-        top_movies['score'] = top_movies['similarity_normal'] * 0.25 + 0.75 * top_movies['user_rating_normal']
-        top_movies = top_movies.sort_values('score', ascending=False)
+        top_shows['score'] = top_shows['similarity_normal'] * 0.25 + 0.75 * top_shows['user_rating_normal']
+        top_shows = top_shows.sort_values('score', ascending=False)
 
-        return top_movies.copy()
+        return top_shows.copy()
 
     def convert_rating_to_category(self, x):
         rating = x
