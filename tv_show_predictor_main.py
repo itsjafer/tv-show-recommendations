@@ -36,6 +36,7 @@ for title in stdin:
 
     # Normalize and assign a rating based on similarity, user_rating
     top_movies = show_data_processor.assign_score(top_movies, sim_scores)
+    top_movies = top_movies.set_index('index')
     
 
     print('Found the following TV Shows:\n')
