@@ -32,16 +32,14 @@ for title in stdin:
     print('Finding tv shows similar to ' + similarTitle + '...\n')
     
     # Get a list of top 30 most similar shows
-    top_movies, sim_scores = show_data_processor.get_similar(df_trained, similarTitle)
+    top_shows, sim_scores = show_data_processor.get_similar(df_trained, similarTitle)
 
     # Normalize and assign a rating based on similarity, user_rating
-    top_movies = show_data_processor.assign_score(top_movies, sim_scores)
-    top_movies = top_movies.set_index('index')
+    top_shows = show_data_processor.assign_score(top_shows, sim_scores)
+    top_shows = top_shows.set_index('index')
     
 
     print('Found the following TV Shows:\n')
-    print(top_movies[['title', 'score', 'user_rating', 'similarity']].head(10))
+    print(top_shows[['title', 'score', 'user_rating', 'similarity']].head(10))
 
     print('\nPlease enter the title of a TV Show')
-
-top_showstop_showstop_showstop_showstop_showstop_shows
