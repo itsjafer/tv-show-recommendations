@@ -2,6 +2,8 @@
 # recommendations through other websites.
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
+
 import os
 from data_processor import DataProcessor
 import pandas as pd
@@ -19,6 +21,7 @@ if (not os.path.isfile('cosine_model.pkl')):
 else:
     df_trained = pickle.load(open('cosine_model.pkl', "rb"))
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/predict', methods=['GET'])
 def predict():
