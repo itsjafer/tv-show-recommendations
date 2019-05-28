@@ -41,11 +41,11 @@ class DataProcessor:
 
     # We put an emphasis on keywords, cast, and details
     def create_soup(self, x):
-        keywords = x['keywords'] * 15
+        keywords = x['keywords'] * 20
         details = x['details'] * 5
-        cast = x['cast'] * 10
+        cast = x['cast'] * 5
         return ' '.join(keywords) + ' ' + 'seasons:' + x['num_seasons'] + ' ' + x['runtime'] + ' ' + ' '.join(details) + \
-            ' ' + ' '.join(cast) + ' ' + x['user_rating_group'] + ' ' + ' '.join(x['plot']) + ' ' + ' '.join(x['synopsis'])
+            ' ' + ' '.join(cast) + ' ' + x['user_rating_group'] #+ ' ' + ' '.join(x['plot']) + ' ' + ' '.join(x['synopsis'])
 
     # Function to convert all strings to lower case and strip names of spaces
     def clean_data(self, x):
@@ -137,7 +137,7 @@ class DataProcessor:
     def load_model(self):
         
         # We load the csv into a dataframe
-        df = self.load_tv_shows('tv_shows_with_features.csv')
+        df = self.load_tv_shows('tv_shows_with_features_fast.csv')
 
         df_analysis = df
         # Turn some columns into a list instead of str
@@ -148,13 +148,17 @@ class DataProcessor:
         df_analysis['synopsis'] = df_analysis['synopsis'].apply(lambda x: x.split(' '))
         df_analysis['plot'] = df_analysis['plot'].apply(lambda x: x.split(' '))
 
+        # For filling in values, I've found metacritic userscores are far less reliable
+        #   and so we won't use those to fill in missing values.
         # Fill in missing metascore values with the related imdb and userscore
-        df_analysis['metascore'] = np.where(df['metascore'] == 0, df['user_rating'], df['metascore'])
-        df_analysis['metascore'] = np.where(df['metascore'] == 0, df['userscore'], df['metascore'])
+        df_analysis['metascore'] = np.where(df['metascore'] == 0, df['user_rating'] * 10, df['metascore'])
 
         # Fill in missing userscore values with the related imdb and metascore
+        df_analysis['userscore'] = np.where(df['userscore'] == 0, df['metascore'] / 10, df['userscore'])
         df_analysis['userscore'] = np.where(df['userscore'] == 0, df['user_rating'], df['userscore'])
-        df_analysis['userscore'] = np.where(df['userscore'] == 0, df['metascore'], df['userscore'])
+
+        # Fill in missing imdb ratings
+        df_analysis['user_rating'] = np.where(df['user_rating'] == 0, df['metascore'] / 10, df['user_rating'])
 
         # Now we do some analysis
         print('Analysis of Data:')

@@ -11,7 +11,6 @@
 #   * Synopsis
 # We will take this information and create a dataframe
 
-from requests import get
 from time import sleep,time
 from random import randint
 from IPython.core.display import clear_output
@@ -20,7 +19,7 @@ import csv
 import logging
 from selectolax.parser import HTMLParser
 
-logging.basicConfig(filename='imdb_scraper_fast.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='imdb_scraper_fast.log', filemode='w', format='%(asctime)s %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 logging.getLogger().setLevel(logging.INFO)
 
 # Request header
@@ -125,18 +124,24 @@ for show in tv_shows:
     # We will parse ALL the keywords
     skipAfter = '?ref'
     keyword_link = imdb_page.split(skipAfter, 1)[0] + 'keywords'
-
     response = get(keyword_link, headers=headers)
     requests +=1
     elapsed_time = time() - start_time
     print('Request: {}; Frequency: {} requests/s'.format(requests, requests/elapsed_time))
     clear_output(wait = True)
-
     keyword_parser = HTMLParser(response.text)
-
     keywords = list()
+
+    # Parse keywords page
     for word in keyword_parser.css('.sodatext'):
         keywords.append(word.text().strip())
+
+    # Parse main page for important keywords and genres
+    for soup in parser.css('.see-more.inline.canwrap'):
+        for word in soup.css('a'):
+            if (word.text()[0:7] == 'See All'):
+                continue
+            keywords.append(word.text().strip().lower())
 
     # Episode length
     if len(parser.css('#titleDetails')) <= 0 or \

@@ -26,11 +26,12 @@ def scrape_data():
     import imdb_scraper
 
     # remove saved model
-    os.remove("cosine_model.pkl")
+    os.remove("cosine_model_old.pkl")
+    os.rename("cosine_model.pkl", "cosine_model_old.pkl")
 
 if __name__ == "__main__":
 
-    result = raw_input("Enter 'Y' if you want to scrape and retrain the model'. Enter anything else to continue.")
+    result = input("Enter 'Y' if you want to scrape and retrain the model'. Enter anything else to continue.")
     if (result == 'Y'):
         scrape_data()
 

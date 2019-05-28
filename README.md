@@ -6,6 +6,10 @@ This is a simple pipeline that scrapes information from Metacritic and IMDB and 
 
 You can see a demo of prediction on my [website](http://itsjafer.com/#/show-predictor).
 
+## Limitations
+
+Titles are scraped from metacritic but feature data is scraped from imdb. This means there is (occasionally) a mismatch in titles and thus no data is collected. I'm planning to implement fuzzy matching to determine if the title is the same. However, there's a high risk of false positive matches (e.g. 'The Wire' with 'Wired')
+
 ## Overview
 
 ### Scraping and Training
