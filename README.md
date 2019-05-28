@@ -8,7 +8,11 @@ You can see a demo of prediction on my [website](http://itsjafer.com/#/show-pred
 
 ## Overview
 
+### Scraping and Training
+
 This pipeline uses BeautifulSoup to parse and scrape data off of Metacritic and IMDB. Then, we use pandas to create a dataframe from the scraped data. Finally, using nltk we create a 'soup' of useful features and find pairwise cosine similarity between all tv shows.
+
+### Predicting
 
 In terms of predicting, the web server runs through a Flask container. Given an input tv show, the model will find the 30 most similar tv shows based on features alone. Among those 30, a normalized user_rating and normalized similarity score is weighed at 75-25 to return the 10 most valuable recommendations.
 
