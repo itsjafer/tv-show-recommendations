@@ -81,3 +81,6 @@ for letter in alphabet:
             with open('tv_shows.csv', 'a') as f:
                 csv_writer = csv.writer(f)
                 csv_writer.writerow(row)
+        
+        if alphabet == '#':
+            break

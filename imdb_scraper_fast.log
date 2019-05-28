@@ -1,0 +1,167 @@
+root - INFO - Scraping information for show: title
+root - WARNING - Skipping show because we didn't find an exact match. Expected: title. Got: The Imaginatively Titled Punt & Dennis Show
+root - INFO - Scraping information for show: A Bear's Tail
+root - WARNING - Skipping show because it has 99.0 < 1000 ratings
+root - INFO - Scraping information for show: A Bit of Fry and Laurie
+root - INFO - Finished scraping, A Bit of Fry and Laurie: ('A Bit of Fry and Laurie', '0', '8.9', 'https://www.imdb.com/title/tt0101049/?ref_=adv_li_tt', ['Stephen Fry', 'Hugh Laurie', 'Deborah Norton'], ['UK', 'English', 'British Broadcasting Corporation (BBC)', 'Color'], '4', '8.3', 8402.0, ['alternative comedy', 'social satire', 'singing', 'song', 'musician', 'musical number', 'monologue', 'cross dressing', 'comedian', 'actor name in title', 'based on radio show', 'parody', 'satire', 'performer name in title', 'joke', 'england', 'comedy team', 'actor playing multiple roles', 'actor playing himself', 'british', 'double act', 'sketch comedy', 'character name in title'], '30 min', 'As the title suggests, "A Bit of Fry and Laurie" is less of a specific format than a \'coat-hanger\' for short sketches, starring the comical duo in various, recurring or unique roles: Stephen Fry, the sophisticated giant who usually plays the smug one, and comparatively small Hugh Laurie, usually playing the patsy.', 'Comedy sketches written and performed by renowned duo Stephen Fry and Hugh Laurie.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A Christmas Story Live!
+root - WARNING - Did not find any results for: A Christmas Story Live!
+root - INFO - Scraping information for show: A Crude Awakening: The Oil Crash
+root - WARNING - Did not find any results for: A Crude Awakening: The Oil Crash
+root - INFO - Scraping information for show: A Current Affair
+root - WARNING - Skipping show because it has 230.0 < 1000 ratings
+root - INFO - Scraping information for show: A Current Affair (Australia)
+root - WARNING - Did not find any results for: A Current Affair (Australia)
+root - INFO - Scraping information for show: A Deadly Adoption
+root - WARNING - Did not find any results for: A Deadly Adoption
+root - INFO - Scraping information for show: A Different World
+root - INFO - Finished scraping, A Different World: ('A Different World', '0', '0', 'https://www.imdb.com/title/tt0092339/?ref_=adv_li_tt', ['Bill Cosby', 'Lisa Bonet', 'Kadeem Hardison', 'Jasmine Guy'], ['USA', 'English', 'Universal Studios - 100 Universal City Plaza, Universal City, California, USA', 'Bill Cosby', 'Stereo', 'Color'], '6', '6.9', 5008.0, ['sitcom', 'historically black college', 'african american', 'university', 'college', 'boy with glasses', 'teenage girl', 'friend'], '30 min', 'A group of students at a historically Black university struggle to make it through college.', 'A group of students at a historically Black university struggle to make it through college.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A Discovery of Witches
+root - INFO - Finished scraping, A Discovery of Witches: ('A Discovery of Witches', '66', '7.2', 'https://www.imdb.com/title/tt2177461/?ref_=adv_li_tt', ['Matthew Goode', 'Teresa Palmer', 'Valarie Pettiford'], ['UK', 'English', 'University of Oxford, Oxford, Oxfordshire, England, UK', 'Bad Wolf', 'Color'], '1', '8.2', 17421.0, ['witch', 'vampire', 'magic', 'propaganda', 'russophobia'], '60 min', "In a world where witches, vampires and daemons live discreetly among humans, Diana Bishop is the last in one long line of distinguished witches. Unwilling to embrace her heritage she has immersed herself in her career as a historian. Her particular interest is alchemy and she visits Oxford to research some of Elias Ashmole's papers. She requests Ashmole 782 and as soon as she receives it she knows there is something uncanny about it; when she opens it she is shocked. She learns that 782 has been presumed lost for a very long time and that each species of Creature desires it. She is besieged and threatened and knows that, to protect herself, she must uncover all the mysteries of 782. She encounters the enigmatic vampire, Matthew Clairmont, who offers to help her; their mutual attraction is immediate, undeniable and inexplicable because they both know that witches and vampires are not supposed to trust each other. Diana makes her choice and accepts Matthew's help. This precipitates them...", "Diana Bishop, historian and witch, accesses Ashmole 782 and knows she must solve its mysteries. She is offered help by the enigmatic Matthew Clairmont, but he's a vampire and witches should never trust vampires.")
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A Double Shot at Love
+root - WARNING - Skipping show because it has 199.0 < 1000 ratings
+root - INFO - Scraping information for show: A Gifted Man 
+root - INFO - Finished scraping, A Gifted Man : ('A Gifted Man ', '62', '7.0', 'https://www.imdb.com/title/tt1820742/?ref_=adv_li_tt', ['Susannah Grant', 'Patrick Wilson', 'Jennifer Ehle', 'Margo Martindale'], ['USA', 'English', 'Silvercup Studios East, Long Island City, Queens, New York City, New York, USA', 'Baer Bones', 'Dolby Digital', 'Color'], '2', '7.1', 7115.0, ['doctor', 'hospital', 'nurse', 'medicine', 'latex gloves'], 0, "Michael Holt is a successful doctor who has a thriving practice. One day he runs into his ex-wife Anna, also a doctor. They spend some time together. He later learns that she died before he met her. He goes to her memorial and learns she was working in an inner-city clinic, and when he goes there, he can't help but assist. Before long, people from the clinic come to see him. He continues to see Anna, who tries to get him to do good. He decides to work at the clinic as well as at his practice.", 'Centers on an ultra-competitive surgeon whose life is changed forever when his ex-wife dies and begins teaching him what life is all about from the here-after.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A Good Job: Stories of the FDNY
+root - WARNING - Did not find any results for: A Good Job: Stories of the FDNY
+root - INFO - Scraping information for show: A Grandpa For Christmas
+root - WARNING - Did not find any results for: A Grandpa For Christmas
+root - INFO - Scraping information for show: A Haunting
+root - INFO - Finished scraping, A Haunting: ('A Haunting', '0', '8.8', 'https://www.imdb.com/title/tt0484243/?ref_=adv_li_tt', ['Anthony D. Call', 'Kelley Davis', 'Scott Rollins'], ['New Dominion Pictures', 'USA', 'English', 'Hampton Roads, Virginia, USA', 'New Dominion Pictures', 'Color'], '10', '8.0', 2683.0, ['paranormal phenomena', 'horror host', 'male horror host', 'usa horror host', 'usa male horror host', '2000s', '2010s', 'haunting', 'reenactment'], 0, 'An American paranormal anthology previewing stories told by the victims. Victims tell their terrifing encounters with the paranormal. This show contains narrations, frightening reanactments, & religious content.', 'An American paranormal anthology previewing stories told by the victims. Victims tell their terrifing encounters with the paranormal. This show contains narrations, frightening reanactments, & religious content.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A Hero's Welcome
+root - WARNING - Did not find any results for: A Hero's Welcome
+root - INFO - Scraping information for show: A History of Scotland
+root - WARNING - Skipping show because it has 294.0 < 1000 ratings
+root - INFO - Scraping information for show: A Home for the Holidays with Faith Hill
+root - WARNING - Did not find any results for: A Home for the Holidays with Faith Hill
+root - INFO - Scraping information for show: A League of Their Own (1993) 
+root - WARNING - Did not find any results for: A League of Their Own (1993) 
+root - INFO - Scraping information for show: A Life Of Grime
+root - WARNING - Skipping show because it has 10.0 < 1000 ratings
+root - INFO - Scraping information for show: A Little Help with Carol Burnett
+root - WARNING - Skipping show because it has 195.0 < 1000 ratings
+root - INFO - Scraping information for show: A Lyon in the Kitchen
+root - WARNING - Skipping show because it has 11.0 < 1000 ratings
+root - INFO - Scraping information for show: A Makeover Story
+root - WARNING - Skipping show because it doesn't have a rating
+root - INFO - Scraping information for show: A Man Called Hawk
+root - WARNING - Skipping show because it has 343.0 < 1000 ratings
+root - INFO - Scraping information for show: A Million Little Things
+root - INFO - Finished scraping, A Million Little Things: ('A Million Little Things', '51', '5.9', 'https://www.imdb.com/title/tt7608248/?ref_=adv_li_tt', ['D.J. Nash', 'David Giuntoli', 'Romany Malco', 'Allison Miller'], ['Disney ABC Press', 'USA', 'English', 'Vancouver, British Columbia, Canada', 'Fee-Fi-Fo Films', 'Stereo', 'Color'], '2', '7.9', 5092.0, ['suicide', 'friendship', 'love', 'family problems', 'friend', 'emotional', 'lgbt', 'lgbtq', 'adultery'], '43 min', 'A group of friends become motivated to living fuller lives after the unexpected death of a close friend.', 'A group of friends become motivated to living fuller lives after the unexpected death of a close friend.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A Model Life with Petra Nemcova
+root - WARNING - Did not find any results for: A Model Life with Petra Nemcova
+root - INFO - Scraping information for show: A Neely Family Holiday
+root - WARNING - Did not find any results for: A Neely Family Holiday
+root - INFO - Scraping information for show: A Passionate Woman 
+root - WARNING - Did not find any results for: A Passionate Woman 
+root - INFO - Scraping information for show: A Perfect Day
+root - WARNING - Did not find any results for: A Perfect Day
+root - INFO - Scraping information for show: A Poet In New York
+root - WARNING - Did not find any results for: A Poet In New York
+root - INFO - Scraping information for show: A Pup Named Scooby-Doo
+root - INFO - Finished scraping, A Pup Named Scooby-Doo: ('A Pup Named Scooby-Doo', '0', '0', 'https://www.imdb.com/title/tt0094531/?ref_=adv_li_tt', ['Mark L. Taylor', 'Don Messick', 'Casey Kasem'], ['Boomerang', 'USA', 'English', 'Hanna-Barbera Productions', 'Mono', 'Color'], '4', '6.8', 4089.0, ['1980s', '1990s', 'child protagonist', 'child gang', 'kid gang', 'animal in series title', 'animal character name in series title', 'child', 'scooby doo character', 'surrealism', 'intelligence', 'cartoon dog', 'great dane', 'problem solving', 'mystery villain', 'friend', 'dog', 'character name in title'], '30 min', 'A pre-teen version of Scooby Doo, with a pint-sized version of the title character.', 'A pre-teen version of Scooby Doo, with a pint-sized version of the title character.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A Raisin in the Sun
+root - WARNING - Did not find any results for: A Raisin in the Sun
+root - INFO - Scraping information for show: A Royal Christmas
+root - WARNING - Did not find any results for: A Royal Christmas
+root - INFO - Scraping information for show: A Scare At Bedtime
+root - WARNING - Skipping show because we didn't find an exact match. Expected: A Scare At Bedtime. Got: Podge and Rodge. A Scare at Bedtime
+root - INFO - Scraping information for show: A Shot at Love With Tila Tequila
+root - INFO - Finished scraping, A Shot at Love With Tila Tequila: ('A Shot at Love With Tila Tequila', '0', '0', 'https://www.imdb.com/title/tt1105170/?ref_=adv_li_tt', ['Riley McCormick', 'SallyAnn Salsano', 'Tila Tequila', 'Amanda Ireton', 'Raye Richards'], ['MTV', 'USA', 'English', '495 Productions', 'Color'], '2', '3.4', 1878.0, ['bisexual'], 0, 'A dating elimination show where contestants try to win the heart of Tila Tequila.', 'A dating elimination show where contestants try to win the heart of Tila Tequila.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A Smile as Big as the Moon
+root - WARNING - Did not find any results for: A Smile as Big as the Moon
+root - INFO - Scraping information for show: A to Z
+root - INFO - Finished scraping, A to Z: ('A to Z', '66', '6.8', 'https://www.imdb.com/title/tt3216682/?ref_=adv_li_tt', ['Ben Queen', 'Ben Feldman', 'Cristin Milioti', 'Henry Zebrowski'], ['USA', 'English', 'Warner Brothers Burbank Studios - 4000 Warner Boulevard, Burbank, California, USA', 'BQ Productions', 'Stereo', 'Color'], '1', '6.7', 5381.0, [], '24 min', "A chronicle of Andrew and Zelda's relationship, which lasts for eight months, three weeks, five days, and one hour.", "A chronicle of Andrew and Zelda's relationship, which lasts for eight months, three weeks, five days, and one hour.")
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A Touch of Frost
+root - INFO - Finished scraping, A Touch of Frost: ('A Touch of Frost', '0', '0', 'https://www.imdb.com/title/tt0108967/?ref_=adv_li_tt', ['David Jason', 'Bruce Alexander', 'John Lyons'], ['UK', 'English', 'Carlton Lanes Shopping Centre, Castleford, West Yorkshire, England, UK', 'ITV Productions', 'Dolby', 'Color'], '15', '7.9', 5540.0, ['cop', 'police', 'unorthodox', 'gritty', '1990s', '2000s', 'trilby', 'partner', 'widower', 'crime scene investigation', 'detective constable', 'murder investigation', 'suspect', 'solicitor', 'scene of the crime', 'interrogation', 'whodunit', 'detective sergeant', 'murder of a child', 'internal affairs', 'investigation', 'detective inspector', 'police officer', 'based on novel'], '105 min', "DI Frost is an old-school no-nonsense copper who believes in traditional policing methods. Assisted by several officers including the ever-able DS Toolan, Frost uses what he knows about the street to find solutions to complex crimes as a member of the Denton CID. His home life is complex as he cares for his wife until her death and then leads a quiet bachelor's life, with only the occasional attempt at a relationship with another woman. His daily nemesis however is the Station's commander, Supt. Mullett, who is constantly worrying about budgets, staffing levels and crime statistics. He doesn't appreciate DI Frost's rough and ready manner, which doesn't stop him from trotting him out - with his George Cross, Britain's highest civilian honour for gallantry - when it suits him.", 'DI Jack Frost is an unconventional policeman with sympathy for the underdog and an instinct for moral justice. Sloppy, disorganized and disrespectful, he attracts trouble like a magnet.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A Very English Scandal
+root - WARNING - Did not find any results for: A Very English Scandal
+root - INFO - Scraping information for show: A Very Murray Christmas
+root - WARNING - Did not find any results for: A Very Murray Christmas
+root - INFO - Scraping information for show: A Wicked Offer
+root - WARNING - Skipping show because it has 20.0 < 1000 ratings
+root - INFO - Scraping information for show: A Woman Named Jackie
+root - WARNING - Did not find any results for: A Woman Named Jackie
+root - INFO - Scraping information for show: A Young Doctor's Notebook
+root - WARNING - Skipping show because we didn't find an exact match. Expected: A Young Doctor's Notebook. Got: A Young Doctor's Notebook & Other Stories
+root - INFO - Scraping information for show: A.D.: The Bible Continues
+root - INFO - Finished scraping, A.D.: The Bible Continues: ('A.D.: The Bible Continues', '55', '5.3', 'https://www.imdb.com/title/tt4074084/?ref_=adv_li_tt', ['Richard Coyle', 'Vincent Regan', 'Adam Levy'], ['Official Site', 'USA', 'English', 'United Artists Media Group (UAMG)', 'Stereo', 'Color'], '1', '7.5', 3952.0, [], '44 min', 'A.D. picks up where the smash hit, "The Bible," left off, continuing the greatest story ever told and exploring the exciting and inspiring events that followed the Crucifixion of Christ. As most of the world knows, the Crucifixion was only the beginning of the story. The immediate aftermath of Christ\'s death had a massive impact on his disciples, his mother Mary, and key political and religious leaders of the era, completely altering the entire world in an instant. Watch as the disciples struggle to survive and share their beliefs, guiding us from the sorrow of Christ\'s ultimate sacrifice to the awe-inspiring wonder of the Resurrection and beyond. From Executive Producers Roma Downey and Mark Burnett comes an uplifting spiritual journey through the later chapters of biblical history.', 'Follows the book of ACTS. Shows the complete message of Christ and the transformation of Saul to Paul and how the high priest of Judea does not believe in what has taken place after the Crucifixion of Christ.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A.P. Bio
+root - INFO - Finished scraping, A.P. Bio: ('A.P. Bio', '59', '6.7', 'https://www.imdb.com/title/tt6461726/?ref_=adv_li_tt', ["Michael Patrick O'Brien", 'Jacob Houston', 'Jean Villepique', 'Allisyn Ashley Arm'], ['USA', 'English', 'CBS Studio Center - 4024 Radford Avenue, Studio City, Los Angeles, California, USA', 'Broadway Video', 'Stereo', 'Color'], '2', '7.1', 6771.0, ['school', 'high school', 'revenge', 'biology class', 'incompetent school principal', 'text book', 'book store', 'philosopher', 'destroying property', 'bully', 'breaking the rules', 'biology student', 'harvard university', 'student', 'high school student', 'taking notes', 'bad teacher', 'wearing glasses', 'teacher as protagonist', 'title spoken by character'], '21 min', 'A former philosophy professor who takes a job teaching AP biology, uses his students to get back at the people in his life who have wronged him.', 'A former philosophy professor who takes a job teaching AP biology, uses his students to get back at the people in his life who have wronged him.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: A.T.O.M - Alpha Teens on Machines
+root - WARNING - Skipping show because it has 634.0 < 1000 ratings
+root - INFO - Scraping information for show: Aaliyah: The Princess of R&B
+root - WARNING - Did not find any results for: Aaliyah: The Princess of R&B
+root - INFO - Scraping information for show: Aaron Stone
+root - WARNING - Skipping show because it has 772.0 < 1000 ratings
+root - INFO - Scraping information for show: Abbey and Janice: Beauty and the Best
+root - WARNING - Did not find any results for: Abbey and Janice: Beauty and the Best
+root - INFO - Scraping information for show: Abby's
+root - WARNING - Skipping show because it has 758.0 < 1000 ratings
+root - INFO - Scraping information for show: About A Boy
+root - INFO - Finished scraping, About A Boy: ('About A Boy', '67', '7.6', 'https://www.imdb.com/title/tt2666270/?ref_=adv_li_tt', ['Jason Katims', 'David Walton', 'Benjamin Stockham', 'Al Madrigal'], ['USA', 'English', 'True Jack Productions', 'Stereo', 'Color'], '2', '7.5', 7727.0, ['based on novel'], '22 min', "Will Freeman lives a charmed existence. After writing a hit song, he was granted a life of free time, free love and freedom from financial woes. He's single, unemployed and loving it. So imagine his surprise when Fiona, a needy single mom and her oddly charming 11-year-old son, Marcus, move in next door and disrupt his perfect world. When Marcus begins dropping by his home unannounced, Will's not so sure about being a kid's new best friend, until, of course, Will discovers that women find single dads irresistible. That changes everything and a deal is struck: Marcus will pretend to be Will's son and, in return, Marcus is allowed to chill at Will's house, play ping-pong and gorge on steaks, something his very vegan mom would never allow. Before he realizes it, Will starts to enjoy the visits and even finds himself looking out for the kid. In fact, this newfound friendship may very well teach him a thing or two that he never imagined possible - about himself and caring for others.", "Will Freeman lives a charmed existence. After writing a hit song, he was granted a life of free time, free love and freedom from financial woes. He's single, unemployed and loving it. So ")
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: About a Girl
+root - WARNING - Skipping show because it has 449.0 < 1000 ratings
+root - INFO - Scraping information for show: About Face: Supermodels Then and Now
+root - WARNING - Did not find any results for: About Face: Supermodels Then and Now
+root - INFO - Scraping information for show: Absentia
+root - INFO - Finished scraping, Absentia: ('Absentia', '59', '6.5', 'https://www.imdb.com/title/tt6794990/?ref_=adv_li_tt', ['Matthew Cirulnick', 'Gaia Violo', 'Patrick McAuley', 'Stana Katic', 'Patrick Heusinger'], ['Official Facebook', 'Israel', 'English', 'Sofia, Bulgaria', 'Masha Productions', 'Stereo', 'Color'], '2', '7.3', 7321.0, ['slasher', 'exploitation'], '60 min', 'She disappeared. No one heard from her for six years. No one knows what happened to her, not even her. An FBI Agent tracking a Boston serial killer vanishes, and is declared dead. Six years later, she is found in a cabin in the woods, with no memory of what happened during the time she went missing. She comes back to a husband who has remarried, and whose wife is raising her son. She will have to navigate in her new reality, and she will soon find herself implicated in a new series of murders.', 'After being declared dead in absentia, an FBI agent must reclaim her family, identity and innocence when she finds herself the prime suspect in a string of murders.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: Absolutely Fabulous (UK)
+root - WARNING - Did not find any results for: Absolutely Fabulous (UK)
+root - INFO - Scraping information for show: Academy of Country Music Awards
+root - WARNING - Did not find any results for: Academy of Country Music Awards
+root - INFO - Scraping information for show: Acapulco H.E.A.T.
+root - WARNING - Skipping show because it has 594.0 < 1000 ratings
+root - INFO - Scraping information for show: Acceptable TV
+root - WARNING - Skipping show because it has 153.0 < 1000 ratings
+root - INFO - Scraping information for show: Accidentally on Purpose
+root - INFO - Finished scraping, Accidentally on Purpose: ('Accidentally on Purpose', '50', '6.2', 'https://www.imdb.com/title/tt1441096/?ref_=adv_li_tt', ['Claudia Lonow', 'Jenna Elfman', 'Jon Foster', 'Ashley Jensen'], ['CBS [United States]', 'USA', 'English', 'BermanBraun', 'Stereo', 'Color'], '1', '6.3', 6238.0, [], '22 min', "Billie, a woman in her 30's, wants to settle down and have a family. When she tells her boyfriend James this, he tells her he doesn't want that, so they break up. She gets drunk and hooks up with a guy named Zack. Upon discovering that she's pregnant, he moves in to try and help her.", "Billie, a woman in her 30's, wants to settle down and have a family. When she tells her boyfriend James this, he tells her he doesn't want that, so they break up. She gets drunk and hooks ")
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: According to Bex
+root - WARNING - Skipping show because it has 46.0 < 1000 ratings
+root - INFO - Scraping information for show: According to Jim
+root - INFO - Finished scraping, According to Jim: ('According to Jim', '0', '8.3', 'https://www.imdb.com/title/tt0285351/?ref_=adv_li_tt', ['Tracy Newman', 'Jonathan Stark', 'Jim Belushi', 'Courtney Thorne-Smith', 'Larry Joe Campbell'], ['ABC [United States]', 'USA', 'English', 'CBS Studio Center - 4024 Radford Avenue, Studio City, Los Angeles, California, USA', 'Newman/Stark', 'Dolby Digital', 'Color'], '8', '6.4', 32224.0, ['21th century', '2000s', 'suburb', 'sports fan', 'parenting', 'two sisters', 'construction worker', 'family man', 'aunt niece relationship', 'aunt nephew relationship', 'uncle niece relationship', 'uncle nephew relationship', 'marital problem', 'family relationships', 'neighbor neighbor relationship', 'immaturity', 'watching tv', 'television', 'sister sister relationship', 'sarcasm', 'nagging', 'mother son relationship', 'mother daughter relationship', 'misunderstanding', 'irony', 'insecurity', 'housewife', 'home', 'friendship', 'father son relationship', 'father daughter relationship', 'embarrassment', 'brother sister relationship', 'brother in law brother in law relationship', 'brother in law sister in law relationship', 'band', 'chicago illinois', 'marriage', 'husband wife relationship'], '30 min', 'A television show centered around a macho everyman, his loving wife, and their three precocious children.', 'A television show centered around a macho everyman, his loving wife, and their three precocious children.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: Ace of Cakes
+root - INFO - Finished scraping, Ace of Cakes: ('Ace of Cakes', '0', '0', 'https://www.imdb.com/title/tt0842903/?ref_=adv_li_tt', ['Erica Reid Harrison', 'Duff Goldman', 'Geoffry Manthorne'], ['Food Network', 'USA', 'English', 'Baltimore, Maryland, USA', 'Authentic Entertainment', 'Color'], '10', '7.2', 1157.0, ['cake', 'chef', 'baltimore maryland', 'food', 'fondant', 'personal stories', 'teamwork', 'construction', 'power tool', 'birthday cake', 'bride and groom', 'sous chef', 'artist', 'sugar art', 'replica', 'gum paste', 'wedding cake', 'bakery', 'small business owner', 'friend', 'culinary artist', 'concept cake', 'theme party', 'modeling chocolate', 'cake sculpting', 'cake decorating', 'baker', 'cake decorator'], '21 min', 'Chef and owner of Charm City Cakes in Baltimore, Maryland, Duff Goldman, and his crew of decorators attempt to create amazing and awe-inspiring cakes for their clients each week.', 'Chef and owner of Charm City Cakes in Baltimore, Maryland, Duff Goldman, and his crew of decorators attempt to create amazing and awe-inspiring cakes for their clients each week.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: Ace Ventura: Pet Detective
+root - WARNING - Skipping show because it has 684.0 < 1000 ratings
+root - INFO - Scraping information for show: Action
+root - WARNING - Skipping show because we didn't find an exact match. Expected: Action. Got: Justice League Action
+root - INFO - Scraping information for show: Action (2019)
+root - WARNING - Did not find any results for: Action (2019)
+root - INFO - Scraping information for show: Actionscript Pirates!
+root - WARNING - Did not find any results for: Actionscript Pirates!
+root - INFO - Scraping information for show: Addicted to Beauty 
+root - WARNING - Skipping show because it has 6.0 < 1000 ratings
+root - INFO - Scraping information for show: Addiction
+root - WARNING - Skipping show because we didn't find an exact match. Expected: Addiction. Got: My Strange Addiction
+root - INFO - Scraping information for show: Adventure Time
+root - INFO - Finished scraping, Adventure Time: ('Adventure Time', '0', '7.8', 'https://www.imdb.com/title/tt1305826/?ref_=adv_li_tt', ['Pendleton Ward', 'John DiMaggio', 'Jeremy Shada', 'Tom Kenny'], ['Hulu', 'USA', 'English', 'Frederator Studios', 'Stereo', 'Color'], '10', '8.6', 65602.0, ['cult tv', 'boy', 'dog', 'human', 'castle', 'cartoon network', 'shapeshifter', 'sword', 'adoptive brother adopted brother relationship', 'friend', 'coming of age', 'best friends', 'male protagonist', 'bulldog', 'magical power', 'teenager', '2d animation', 'traditional animation', '2010s', 'title in title', 'bubblegum', 'cartoon dog', 'reality', 'candy land', 'candy', 'cloud', 'macintosh', 'kingdom', 'robot', 'talking animal', 'talking food', 'talking dog', 'gum', 'rainbow', 'adventurer', 'spell', 'sweet', 'anthropomorphism', 'vampire', 'unicorn', 'transformation', 'parallel universe', 'monster', 'creature', 'forest', 'penguin', 'fantasy world', 'magic', 'ice', 'post apocalypse', 'king', 'wizard', 'princess', 'surrealism', 'backpack', 'anthropomorphic food'], '11 min', 'A 12-year-old boy and his best friend, wise 28-year-old dog with magical powers, go on a series of surreal adventures with each other.', 'A 12-year-old boy and his best friend, wise 28-year-old dog with magical powers, go on a series of surreal adventures with each other.')
+root - INFO - Wrote information to csv
+root - INFO - Scraping information for show: Adventures in Babysitting
+root - WARNING - Did not find any results for: Adventures in Babysitting
+root - INFO - Scraping information for show: Adventures in Hollyhood
+root - WARNING - Skipping show because it has 164.0 < 1000 ratings
+root - INFO - Scraping information for show: Adventures in Wonderland
+root - WARNING - Skipping show because it has 489.0 < 1000 ratings
+root - INFO - Scraping information for show: Adventures of Superman
+root - WARNING - Skipping show because we didn't find an exact match. Expected: Adventures of Superman. Got: Lois & Clark: The New Adventures of Superman
+root - INFO - Scraping information for show: Adventures of Timothy Pilgrim
+root - WARNING - Skipping show because we didn't find an exact match. Expected: Adventures of Timothy Pilgrim. Got: The Adventures of Timothy Pilgrim
+root - INFO - Scraping information for show: Aeon Flux

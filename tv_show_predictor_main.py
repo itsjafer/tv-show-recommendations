@@ -8,38 +8,61 @@ from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 import pickle
 from sys import stdin
+import logging
 
 show_data_processor = DataProcessor()
 
-if (not os.path.isfile('cosine_model.pkl')):
-    print("No model found. Starting training process...")
-    df_trained = show_data_processor.load_model()
-else:
-    df_trained = pickle.load(open('cosine_model.pkl', "rb"))
+def scrape_data():
+    # delete any csv files that currently exist
+    os.remove("tv_shows.csv")
 
-print('Please enter the title of a TV Show')
+    # run metacritic scraper
+    import metacritic_scraper
 
-for title in stdin:
+    # delete related csv file
+    os.remove("tv_shows_with_features.csv")
 
-    # Find a tv show with the most similar title
-    titles = df_trained['title'].tolist()
+    # run imdb scraper
+    import imdb_scraper
 
-    similarTitle = process.extractOne(title, titles)[0]
+    # remove saved model
+    os.remove("cosine_model.pkl")
 
-    if (similarTitle != title):
-        print('Found "' + similarTitle + '", which was the closest match\n')
+if __name__ == "__main__":
 
-    print('Finding tv shows similar to ' + similarTitle + '...\n')
-    
-    # Get a list of top 30 most similar shows
-    top_shows, sim_scores = show_data_processor.get_similar(df_trained, similarTitle)
+    result = raw_input("Enter 'Y' if you want to scrape and retrain the model'. Enter anything else to continue.")
+    if (result == 'Y'):
+        scrape_data()
 
-    # Normalize and assign a rating based on similarity, user_rating
-    top_shows = show_data_processor.assign_score(top_shows, sim_scores)
-    top_shows = top_shows.set_index('index')
-    
+    if (not os.path.isfile('cosine_model.pkl')):
+        print("No model found. Starting training process...")
+        df_trained = show_data_processor.load_model()
+    else:
+        df_trained = pickle.load(open('cosine_model.pkl', "rb"))
 
-    print('Found the following TV Shows:\n')
-    print(top_shows[['title', 'score', 'user_rating', 'similarity', 'metascore', 'userscore']].head(10))
+    print('Please enter the title of a TV Show')
 
-    print('\nPlease enter the title of a TV Show')
+    for title in stdin:
+
+        # Find a tv show with the most similar title
+        titles = df_trained['title'].tolist()
+
+        similarTitle = process.extractOne(title, titles)[0]
+
+        if (similarTitle != title):
+            print('Found "' + similarTitle + '", which was the closest match\n')
+
+        print('Finding tv shows similar to ' + similarTitle + '...\n')
+        
+        # Get a list of top 30 most similar shows
+        top_shows, sim_scores = show_data_processor.get_similar(df_trained, similarTitle)
+
+        # Normalize and assign a rating based on similarity, user_rating
+        top_shows = show_data_processor.assign_score(top_shows, sim_scores)
+        top_shows = top_shows.set_index('index')
+        
+
+        print('Found the following TV Shows:\n')
+        print(top_shows[['title', 'score', 'user_rating', 'similarity', 'metascore', 'userscore']].head(10))
+
+        print('\nPlease enter the title of a TV Show')

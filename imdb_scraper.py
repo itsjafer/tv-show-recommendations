@@ -19,6 +19,10 @@ from IPython.core.display import clear_output
 import string
 import warnings
 import csv
+import logging
+
+logging.basicConfig(filename='imdb_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.getLogger().setLevel(logging.INFO)
 
 # Request header
 headers = \
@@ -42,17 +46,17 @@ with open("tv_shows.csv", 'r') as f:
     tv_shows = list(csv_reader)
 
 for show in tv_shows:
-    print(show[0])
+    logging.info("Scraping information for show: " + (show[0]))
     # We want to query imdb one time
     url = 'https://www.imdb.com/search/title?title=' + show[0] + '&title_type=tv_series'
     # Making a response and parsing it
     response = get(url, headers=headers)
 
     if response.status_code != 200:
-        warnings.warn('Received status code, ' + response.status_code)
+        logging.warning('Received status code, ' + response.status_code)
         break
 
-    html_soup = BeautifulSoup(response.text, 'xml')
+    html_soup = BeautifulSoup(response.text, 'lxml')
 
     # Update progress bar and wait
     requests +=1
@@ -63,6 +67,7 @@ for show in tv_shows:
     # We only care about the divs that have the movie name
     # imdb_page has the link to the tv show's imdb page
     if (len(html_soup.find_all(class_='lister-item-header')) <= 0):
+        logging.warning('Did not find any results for: ' + show[0])
         continue
     imdb_page = "https://www.imdb.com" + html_soup.find(class_='lister-item-header').find('a').get('href')
 
@@ -70,14 +75,21 @@ for show in tv_shows:
     # Some code duplication here unfortunately
     response = get(imdb_page, headers=headers)
     if response.status_code != 200:
-        warnings.warn('Received status code, ' + str(response.status_code))
+        logging.warning('Received status code, ' + str(response.status_code))
         break
 
-    html_soup = BeautifulSoup(response.text, 'xml')
+    html_soup = BeautifulSoup(response.text, 'lxml')
 
     # First, let's make sure this is a valid match
-    if show[0].strip() != html_soup.find(class_='title_wrapper').find('h1').text.strip():
-        print("Skipping show because we didn't find an exact match")
+    # Remove punctuation and spaces
+    translator = str.maketrans('', '', string.punctuation)
+    title = str.lower(show[0].replace(" ", "")).translate(translator)
+    foundTitle = str.lower(html_soup.find(class_='title_wrapper').find('h1').text.strip().replace(" ", "")).translate(translator)
+    
+    # Check equality
+    if title != foundTitle:
+        logging.warning("Skipping show because we didn't find an exact match. Expected: " + show[0].strip() + \
+             ". Got: " + html_soup.find(class_='title_wrapper').find('h1').text.strip())
         continue
 
     # Update progress bar and wait
@@ -88,11 +100,12 @@ for show in tv_shows:
 
     # Check if number of votes is valid
     if len(html_soup.find_all(itemprop='ratingCount')) <= 0:
+        logging.warning("Skipping show because it doesn't have a rating")
         continue
 
     num_ratings = float(html_soup.find(itemprop='ratingCount').text.replace(',' , '').strip())
     if num_ratings < 1000:
-        print("Skipping show because it has " + str(num_ratings) + " < 1000 ratings")
+        logging.warning("Skipping show because it has " + str(num_ratings) + " < 1000 ratings")
         continue
 
     # Number of seasons
@@ -162,7 +175,9 @@ for show in tv_shows:
 
     # Now we need to make a row
     row = (show[0], show[1], show[2], imdb_page, cast, details, num_seasons, user_rating, num_ratings, keywords, length, synopsis, plot)
-        
+    logging.info("Finished scraping, " + show[0] + ": " + str(row))
     with open('tv_shows_with_features.csv', 'a') as f:
-            csv_writer = csv.writer(f)
-            csv_writer.writerow(row)
+        csv_writer = csv.writer(f)
+        csv_writer.writerow(row)
+        logging.info("Wrote information to csv")
+
