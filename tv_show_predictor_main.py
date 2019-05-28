@@ -40,6 +40,6 @@ for title in stdin:
     
 
     print('Found the following TV Shows:\n')
-    print(top_shows[['title', 'score', 'user_rating', 'similarity']].head(10))
+    print(top_shows[['title', 'score', 'user_rating', 'similarity', 'metascore', 'userscore']].head(10))
 
     print('\nPlease enter the title of a TV Show')

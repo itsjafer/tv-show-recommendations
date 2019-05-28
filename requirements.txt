@@ -9,6 +9,7 @@ decorator==4.4.0
 entrypoints==0.3
 flake8==3.7.7
 Flask==1.0.3
+Flask-Cors==3.0.7
 fuzzywuzzy==0.17.0
 idna==2.8
 ipython==7.5.0

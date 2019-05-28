@@ -21,7 +21,7 @@ if (not os.path.isfile('cosine_model.pkl')):
 else:
     df_trained = pickle.load(open('cosine_model.pkl', "rb"))
 app = Flask(__name__)
-cors = CORS(app, resources={r"/predict": {"origins": "itsjafer.com"}})
+cors = CORS(app, resources={r"/predict": {"origins": "*"}})
 
 @app.route('/predict', methods=['GET'])
 def predict():
@@ -41,7 +41,8 @@ def predict():
     # Normalize and assign a rating based on similarity, user_rating
     top_shows = show_data_processor.assign_score(top_shows, sim_scores)
     top_shows = top_shows.set_index('index')
-    
+    top_shows['similarTitle'] = similarTitle
+
     print('Found the following TV Shows:\n')
     prediction = (top_shows.head(10).to_json(orient='records'))
 

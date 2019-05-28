@@ -22,10 +22,15 @@ headers = \
 # We will look at first 20 pages of every letter in the alphabet
 pages = [str(i) for i in range(0,20)]
 alphabet = list(string.ascii_lowercase)
+alphabet.append('#')
 
 # We use this to keep track of time and requests
 start_time = time()
 requests = 0
+row = ('title', 'metascore', 'userscore')
+with open('tv_shows.csv', 'a') as f:
+    csv_writer = csv.writer(f)
+    csv_writer.writerow(row)
 
 for letter in alphabet:
     for page in pages:
@@ -48,7 +53,7 @@ for letter in alphabet:
         clear_output(wait = True)
 
         # We only care about the divs that have the movie name
-        tv_show_containers = html_soup.find_all('div', {'class':'basic_stat product_title'})
+        tv_show_containers = html_soup.find_all('div', {'class':'product_wrap'})
 
         # If we're reached the end of the pages, go to the next letter
         if (len(tv_show_containers) == 0):
@@ -56,11 +61,23 @@ for letter in alphabet:
 
         # Add the TV Shows
         for show in tv_show_containers:
-            row = list()
-            show = show.a.text.strip()
-            if (show.split(':')[-1].strip() == 'Season 1'):
-                show = show[:-10]
-            row.append(show)
+
+            # We need to get the name of the show
+            title = show.find(class_="basic_stat product_title").a.text.strip()
+            if (title.split(':')[-1].strip() == 'Season 1'):
+                title = title[:-10]
+
+            # Now let's get the metascore
+            metascore = show.find(class_='brief_metascore').find(class_='metascore_w').text.strip()
+            if (metascore == 'tbd'):
+                metascore = 0
+            
+            # Finally, user score
+            userscore = show.find(class_='product_avguserscore').find(class_='textscore').text.strip()
+            if (userscore == 'tbd'):
+                userscore = 0
+
+            row = (title, metascore, userscore)
             with open('tv_shows.csv', 'a') as f:
                 csv_writer = csv.writer(f)
                 csv_writer.writerow(row)

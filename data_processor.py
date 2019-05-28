@@ -10,6 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import string
 from sklearn import preprocessing
 import pickle
+import numpy as np
 
 class DataProcessor:
 
@@ -40,10 +41,11 @@ class DataProcessor:
 
     # We put an emphasis on keywords, cast, and details
     def create_soup(self, x):
-        return ' '.join(x['keywords']) + ' '  + ' '.join(x['keywords']) + ' '  + ' '.join(x['keywords']) \
-            + ' ' + 'seasons:' + x['num_seasons'] + ' ' + x['runtime'] + ' ' + ' '.join(x['details']) + \
-            ' ' + ' '.join(x['details'])  + ' '.join(x['details'])  + ' '.join(x['details']) + ' ' + ' '.join(x['cast']) + ' ' + x['user_rating_group'] + \
-            ' ' + ' '.join(x['plot']) + ' ' + ' '.join(x['synopsis'])
+        keywords = x['keywords'] * 15
+        details = x['details'] * 5
+        cast = x['cast'] * 10
+        return ' '.join(keywords) + ' ' + 'seasons:' + x['num_seasons'] + ' ' + x['runtime'] + ' ' + ' '.join(details) + \
+            ' ' + ' '.join(cast) + ' ' + x['user_rating_group'] + ' ' + ' '.join(x['plot']) + ' ' + ' '.join(x['synopsis'])
 
     # Function to convert all strings to lower case and strip names of spaces
     def clean_data(self, x):
@@ -108,9 +110,11 @@ class DataProcessor:
         # Normalize the data
         top_shows['user_rating_normal']=min_max_scaler.fit_transform(top_shows[['user_rating']])
         top_shows['similarity_normal']=min_max_scaler.fit_transform(top_shows[['similarity']])
+        top_shows['metascore_normal']=min_max_scaler.fit_transform(top_shows[['metascore']])
+        top_shows['userscore_normal']=min_max_scaler.fit_transform(top_shows[['userscore']])
 
         # Create a score using user rating and similarity
-        top_shows['score'] = top_shows['similarity_normal'] * 0.25 + 0.75 * top_shows['user_rating_normal']
+        top_shows['score'] = top_shows['similarity_normal'] * 0.16 + 0.33 * top_shows['user_rating_normal'] + 0.33 * top_shows['userscore_normal'] + 0.16 * top_shows['metascore_normal']
         top_shows = top_shows.sort_values('score', ascending=False)
 
         return top_shows.copy()
@@ -143,6 +147,10 @@ class DataProcessor:
 
         df_analysis['synopsis'] = df_analysis['synopsis'].apply(lambda x: x.split(' '))
         df_analysis['plot'] = df_analysis['plot'].apply(lambda x: x.split(' '))
+
+        # Fill in missing metascore values with the related imdb and userscore
+        df_analysis['metascore'] = np.where(df['metascore'] == 0, df['user_rating'], df['metascore'])
+        df_analysis['metascore'] = np.where(df['metascore'] == 0, df['userscore'], df['metascore'])
 
         # Now we do some analysis
         print('Analysis of Data:')

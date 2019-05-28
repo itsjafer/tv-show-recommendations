@@ -31,7 +31,7 @@ start_time = time()
 requests = 0
 tv_shows = list()
 
-columns = ('title', 'cast', 'details', 'num_seasons', 'user_rating', 'num_ratings', 'keywords', 'runtime', 'synopsis', 'plot')
+columns = ('title', 'metascore', 'userscore', 'link', 'cast', 'details', 'num_seasons', 'user_rating', 'num_ratings', 'keywords', 'runtime', 'synopsis', 'plot')
 with open('tv_shows_with_features.csv', 'a') as f:
             csv_writer = csv.writer(f)
             csv_writer.writerow(columns)
@@ -41,12 +41,10 @@ with open("tv_shows.csv", 'r') as f:
     csv_reader = csv.reader(f, delimiter=',')
     tv_shows = list(csv_reader)
 
-flat_tv_shows = [item for sublist in tv_shows for item in sublist]
-
-for show in flat_tv_shows:
-    print(show)
+for show in tv_shows:
+    print(show[0])
     # We want to query imdb one time
-    url = 'https://www.imdb.com/search/title?title=' + show + '&title_type=tv_series'
+    url = 'https://www.imdb.com/search/title?title=' + show[0] + '&title_type=tv_series'
     # Making a response and parsing it
     response = get(url, headers=headers)
 
@@ -54,7 +52,7 @@ for show in flat_tv_shows:
         warnings.warn('Received status code, ' + response.status_code)
         break
 
-    html_soup = BeautifulSoup(response.text, 'html.parser')
+    html_soup = BeautifulSoup(response.text, 'xml')
 
     # Update progress bar and wait
     requests +=1
@@ -75,10 +73,10 @@ for show in flat_tv_shows:
         warnings.warn('Received status code, ' + str(response.status_code))
         break
 
-    html_soup = BeautifulSoup(response.text, 'html.parser')
+    html_soup = BeautifulSoup(response.text, 'xml')
 
     # First, let's make sure this is a valid match
-    if show.strip() != html_soup.find(class_='title_wrapper').find('h1').text.strip():
+    if show[0].strip() != html_soup.find(class_='title_wrapper').find('h1').text.strip():
         print("Skipping show because we didn't find an exact match")
         continue
 
@@ -163,7 +161,7 @@ for show in flat_tv_shows:
         plot = plot.split(skipAfter, 1)[0]
 
     # Now we need to make a row
-    row = (show, cast, details, num_seasons, user_rating, num_ratings, keywords, length, synopsis, plot)
+    row = (show[0], show[1], show[2], imdb_page, cast, details, num_seasons, user_rating, num_ratings, keywords, length, synopsis, plot)
         
     with open('tv_shows_with_features.csv', 'a') as f:
             csv_writer = csv.writer(f)
