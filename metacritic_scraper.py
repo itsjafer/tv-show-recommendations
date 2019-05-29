@@ -11,6 +11,9 @@ from IPython.core.display import clear_output
 import string
 import warnings
 import csv
+import logging
+logging.basicConfig(filename='/logging/metacritic_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.getLogger().setLevel(logging.INFO)
 
 # Request header
 headers = \
@@ -32,8 +35,12 @@ with open('tv_shows.csv', 'a') as f:
     csv_writer = csv.writer(f)
     csv_writer.writerow(row)
 
+tv_shows = list()
+
 for letter in alphabet:
+    logging.info("Looking at all shows that start with: " + letter)
     for page in pages:
+        logging.info("Looking at page " + page)
         # Base URL
         url = 'https://www.metacritic.com/browse/tv/title/all/' + letter + '?view=condensed&page=' + page
         
@@ -57,6 +64,7 @@ for letter in alphabet:
 
         # If we're reached the end of the pages, go to the next letter
         if (len(tv_show_containers) == 0):
+            logging.info("No more results found on page " + page)
             break
 
         # Add the TV Shows
@@ -70,17 +78,21 @@ for letter in alphabet:
             # Now let's get the metascore
             metascore = show.find(class_='brief_metascore').find(class_='metascore_w').text.strip()
             if (metascore == 'tbd'):
+                logging.warning("The show, " + title + " has no metascore. Setting to 0.")
                 metascore = 0
             
             # Finally, user score
             userscore = show.find(class_='product_avguserscore').find(class_='textscore').text.strip()
             if (userscore == 'tbd'):
-                userscore = 0
+                logging.warning("The show, " + title + " has no userscore so we will skip it.")
+                continue
 
             row = (title, metascore, userscore)
-            with open('tv_shows.csv', 'a') as f:
-                csv_writer = csv.writer(f)
-                csv_writer.writerow(row)
-        
+            tv_shows.append(row)    
         if alphabet == '#':
             break
+
+with open('tv_shows.csv', 'a') as f:
+    csv_writer = csv.writer(f)
+    csv_writer.writerows(tv_shows)
+    logging.info("Wrote all rows to tv_shows.csv")

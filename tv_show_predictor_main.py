@@ -25,20 +25,22 @@ def scrape_data():
     # run imdb scraper
     import imdb_scraper
 
-    # remove saved model
-    os.remove("cosine_model.pkl")
-
 if __name__ == "__main__":
 
-    result = raw_input("Enter 'Y' if you want to scrape and retrain the model'. Enter anything else to continue.")
+    result = input("Enter 'Y' if you want to scrape information'. Enter anything else to continue.")
     if (result == 'Y'):
         scrape_data()
-
     if (not os.path.isfile('cosine_model.pkl')):
         print("No model found. Starting training process...")
         df_trained = show_data_processor.load_model()
     else:
-        df_trained = pickle.load(open('cosine_model.pkl', "rb"))
+        result = input("Enter 'Y' if you want to retrain the model.")
+        if (result == 'Y'):
+            # remove saved model
+            os.remove("cosine_model.pkl")
+            df_trained = show_data_processor.load_model()
+        else:
+            df_trained = pickle.load(open('cosine_model.pkl', "rb"))
 
     print('Please enter the title of a TV Show')
 

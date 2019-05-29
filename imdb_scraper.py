@@ -21,7 +21,7 @@ import warnings
 import csv
 import logging
 
-logging.basicConfig(filename='imdb_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='/logging/imdb_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 logging.getLogger().setLevel(logging.INFO)
 
 # Request header
@@ -34,6 +34,7 @@ headers = \
 start_time = time()
 requests = 0
 tv_shows = list()
+tv_shows_with_features = list()
 
 columns = ('title', 'metascore', 'userscore', 'link', 'cast', 'details', 'num_seasons', 'user_rating', 'num_ratings', 'keywords', 'runtime', 'synopsis', 'plot')
 with open('tv_shows_with_features.csv', 'a') as f:
@@ -176,8 +177,10 @@ for show in tv_shows:
     # Now we need to make a row
     row = (show[0], show[1], show[2], imdb_page, cast, details, num_seasons, user_rating, num_ratings, keywords, length, synopsis, plot)
     logging.info("Finished scraping, " + show[0] + ": " + str(row))
-    with open('tv_shows_with_features.csv', 'a') as f:
-        csv_writer = csv.writer(f)
-        csv_writer.writerow(row)
-        logging.info("Wrote information to csv")
+    tv_shows_with_features.append(row)
+
+with open('tv_shows_with_features.csv', 'a') as f:
+    csv_writer = csv.writer(f)
+    csv_writer.writerows(tv_shows_with_features)
+    logging.info("Wrote information to csv")
 

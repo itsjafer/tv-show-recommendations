@@ -150,7 +150,6 @@ class DataProcessor:
 
         # Fill in missing metascore values with the related imdb and userscore
         df_analysis['metascore'] = np.where(df['metascore'] == 0, df['user_rating'], df['metascore'])
-        df_analysis['metascore'] = np.where(df['metascore'] == 0, df['userscore'], df['metascore'])
 
         # Fill in missing userscore values with the related imdb and metascore
         df_analysis['userscore'] = np.where(df['userscore'] == 0, df['user_rating'], df['userscore'])

@@ -44,7 +44,7 @@ def predict():
     top_shows['similarTitle'] = similarTitle
 
     print('Found the following TV Shows:\n')
-    prediction = (top_shows.head(10).to_json(orient='records'))
+    prediction = (top_shows.head(15).to_json(orient='records'))
 
     return prediction
 
