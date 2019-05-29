@@ -15,11 +15,11 @@ import json
 
 show_data_processor = DataProcessor()
 
-if (not os.path.isfile('cosine_model.pkl')):
+if (not os.path.isfile('data/cosine_model.pkl')):
     print("No model found. Starting training process...")
     df_trained = show_data_processor.load_model()
 else:
-    df_trained = pickle.load(open('cosine_model.pkl', "rb"))
+    df_trained = pickle.load(open('data/cosine_model.pkl', "rb"))
 app = Flask(__name__)
 cors = CORS(app, resources={r"/predict": {"origins": "*"}})
 

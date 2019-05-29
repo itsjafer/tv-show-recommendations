@@ -12,7 +12,7 @@ import string
 import warnings
 import csv
 import logging
-logging.basicConfig(filename='/logging/metacritic_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='logging/metacritic_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 logging.getLogger().setLevel(logging.INFO)
 
 # Request header
@@ -31,7 +31,7 @@ alphabet.append('#')
 start_time = time()
 requests = 0
 row = ('title', 'metascore', 'userscore')
-with open('tv_shows.csv', 'a') as f:
+with open('data/tv_shows.csv', 'a') as f:
     csv_writer = csv.writer(f)
     csv_writer.writerow(row)
 
@@ -92,7 +92,7 @@ for letter in alphabet:
         if alphabet == '#':
             break
 
-with open('tv_shows.csv', 'a') as f:
+with open('data/tv_shows.csv', 'a') as f:
     csv_writer = csv.writer(f)
     csv_writer.writerows(tv_shows)
     logging.info("Wrote all rows to tv_shows.csv")

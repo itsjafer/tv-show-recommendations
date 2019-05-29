@@ -137,7 +137,7 @@ class DataProcessor:
     def load_model(self):
         
         # We load the csv into a dataframe
-        df = self.load_tv_shows('tv_shows_with_features.csv')
+        df = self.load_tv_shows('data/tv_shows_with_features.csv')
 
         df_analysis = df
         # Turn some columns into a list instead of str

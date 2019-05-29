@@ -21,7 +21,7 @@ import warnings
 import csv
 import logging
 
-logging.basicConfig(filename='/logging/imdb_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='logging/imdb_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 logging.getLogger().setLevel(logging.INFO)
 
 # Request header
@@ -37,7 +37,7 @@ tv_shows = list()
 tv_shows_with_features = list()
 
 columns = ('title', 'metascore', 'userscore', 'link', 'cast', 'details', 'num_seasons', 'user_rating', 'num_ratings', 'keywords', 'runtime', 'synopsis', 'plot')
-with open('tv_shows_with_features.csv', 'a') as f:
+with open('data/tv_shows_with_features.csv', 'a') as f:
             csv_writer = csv.writer(f)
             csv_writer.writerow(columns)
 
@@ -179,7 +179,7 @@ for show in tv_shows:
     logging.info("Finished scraping, " + show[0] + ": " + str(row))
     tv_shows_with_features.append(row)
 
-with open('tv_shows_with_features.csv', 'a') as f:
+with open('data/tv_shows_with_features.csv', 'a') as f:
     csv_writer = csv.writer(f)
     csv_writer.writerows(tv_shows_with_features)
     logging.info("Wrote information to csv")

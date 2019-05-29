@@ -14,13 +14,13 @@ show_data_processor = DataProcessor()
 
 def scrape_data():
     # delete any csv files that currently exist
-    os.remove("tv_shows.csv")
+    os.remove("data/tv_shows.csv")
 
     # run metacritic scraper
     import metacritic_scraper
 
     # delete related csv file
-    os.remove("tv_shows_with_features.csv")
+    os.remove("data/tv_shows_with_features.csv")
 
     # run imdb scraper
     import imdb_scraper
@@ -37,10 +37,10 @@ if __name__ == "__main__":
         result = input("Enter 'Y' if you want to retrain the model.")
         if (result == 'Y'):
             # remove saved model
-            os.remove("cosine_model.pkl")
+            os.remove("data/cosine_model.pkl")
             df_trained = show_data_processor.load_model()
         else:
-            df_trained = pickle.load(open('cosine_model.pkl', "rb"))
+            df_trained = pickle.load(open('data/cosine_model.pkl', "rb"))
 
     print('Please enter the title of a TV Show')
 
