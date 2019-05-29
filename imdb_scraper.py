@@ -37,7 +37,7 @@ requests = 0
 tv_shows = list()
 
 columns = ('title', 'metascore', 'userscore', 'link', 'cast', 'details', 'num_seasons', 'user_rating', 'num_ratings', 'keywords', 'runtime', 'synopsis', 'plot')
-with open('tv_shows_with_features_faster.csv', 'a') as f:
+with open('tv_shows_with_features_fast.csv', 'a') as f:
             csv_writer = csv.writer(f)
             csv_writer.writerow(columns)
 

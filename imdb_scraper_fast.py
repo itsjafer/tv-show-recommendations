@@ -18,8 +18,9 @@ import string
 import csv
 import logging
 from selectolax.parser import HTMLParser
+from requests import get
 
-logging.basicConfig(filename='imdb_scraper_fast.log', filemode='w', format='%(asctime)s %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(filename='imdb_scraper.log', filemode='w', format='%(asctime)s %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 logging.getLogger().setLevel(logging.INFO)
 
 # Request header
@@ -34,9 +35,11 @@ requests = 0
 tv_shows = list()
 
 columns = ('title', 'metascore', 'userscore', 'link', 'cast', 'details', 'num_seasons', 'user_rating', 'num_ratings', 'keywords', 'runtime', 'synopsis', 'plot')
-with open('tv_shows_with_features_fast.csv', 'a') as f:
+with open('tv_shows_with_features.csv', 'a') as f:
             csv_writer = csv.writer(f)
             csv_writer.writerow(columns)
+
+tv_shows_with_features = list()
 
 # Get list of tv show names from csv
 with open("tv_shows.csv", 'r') as f:
@@ -122,19 +125,20 @@ for show in tv_shows:
     
     # Keywords
     # We will parse ALL the keywords
-    skipAfter = '?ref'
-    keyword_link = imdb_page.split(skipAfter, 1)[0] + 'keywords'
-    response = get(keyword_link, headers=headers)
-    requests +=1
-    elapsed_time = time() - start_time
-    print('Request: {}; Frequency: {} requests/s'.format(requests, requests/elapsed_time))
-    clear_output(wait = True)
-    keyword_parser = HTMLParser(response.text)
+    # skipAfter = '?ref'
+    # keyword_link = imdb_page.split(skipAfter, 1)[0] + 'keywords'
+    # response = get(keyword_link, headers=headers)
+    # requests +=1
+    # elapsed_time = time() - start_time
+    # print('Request: {}; Frequency: {} requests/s'.format(requests, requests/elapsed_time))
+    # clear_output(wait = True)
+    # keyword_parser = HTMLParser(response.text)
+
     keywords = list()
 
     # Parse keywords page
-    for word in keyword_parser.css('.sodatext'):
-        keywords.append(word.text().strip())
+    # for word in keyword_parser.css('.sodatext'):
+    #     keywords.append(word.text().strip())
 
     # Parse main page for important keywords and genres
     for soup in parser.css('.see-more.inline.canwrap'):
@@ -170,6 +174,12 @@ for show in tv_shows:
                     continue
                 cast.append(person.text().strip())
 
+    if len(parser.css('.cast_list')) > 0:
+        for soup in parser.css('.cast_list'):
+            for person in soup.css('.loadlate'):
+                cast.append(person.attributes['title'].strip())
+                print(person)
+
     # Synopsis
     synopsis = str()
     if len(parser.css('#titleStoryLine')) <= 0 or \
@@ -190,9 +200,17 @@ for show in tv_shows:
 
     # Now we need to make a row
     row = (show[0], show[1], show[2], imdb_page, cast, details, num_seasons, user_rating, num_ratings, keywords, length, synopsis, plot)
+    tv_shows_with_features.append(row)
     logging.info("Finished scraping, " + show[0] + ": " + str(row))
-    with open('tv_shows_with_features_fast.csv', 'a') as f:
-        csv_writer = csv.writer(f)
-        csv_writer.writerow(row)
-        logging.info("Wrote information to csv")
 
+    if (requests % 500 < 3):
+        with open('tv_shows_with_features.csv', 'a') as f:
+            csv_writer = csv.writer(f)
+            csv_writer.writerows(tv_shows_with_features)
+            logging.info("Wrote information to csv")
+            tv_shows_with_features.clear()
+
+with open('tv_shows_with_features.csv', 'a') as f:
+            csv_writer = csv.writer(f)
+            csv_writer.writerows(tv_shows_with_features)
+            logging.info("Wrote information to csv")

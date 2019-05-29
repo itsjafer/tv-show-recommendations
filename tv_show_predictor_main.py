@@ -39,7 +39,8 @@ if __name__ == "__main__":
         print("No model found. Starting training process...")
         df_trained = show_data_processor.load_model()
     else:
-        df_trained = pickle.load(open('cosine_model.pkl', "rb"))
+        df_trained = show_data_processor.load_model()
+        #df_trained = pickle.load(open('cosine_model.pkl', "rb"))
 
     print('Please enter the title of a TV Show')
 
