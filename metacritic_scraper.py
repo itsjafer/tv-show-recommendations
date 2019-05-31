@@ -89,7 +89,7 @@ for letter in alphabet:
 
             row = (title, metascore, userscore)
             tv_shows.append(row)    
-        if alphabet == '#':
+        if letter == '#':
             break
 
 with open('data/tv_shows.csv', 'a') as f:
