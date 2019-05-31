@@ -54,7 +54,7 @@ for show in tv_shows:
     response = get(url, headers=headers)
 
     if response.status_code != 200:
-        logging.warning('Received status code, ' + response.status_code)
+        logging.warning('Received status code, ' + str(response.status_code))
         break
 
     parser = HTMLParser(response.text)
