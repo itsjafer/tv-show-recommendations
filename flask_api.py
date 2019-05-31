@@ -39,7 +39,7 @@ def predict():
     top_shows, sim_scores = show_data_processor.get_similar(df_trained, similarTitle)
 
     # Normalize and assign a rating based on similarity, user_rating
-    top_shows = show_data_processor.assign_score(top_shows, sim_scores)
+    top_shows = show_data_processor.predict_score(top_shows, sim_scores)
     top_shows = top_shows.set_index('index')
     top_shows['similarTitle'] = similarTitle
 
