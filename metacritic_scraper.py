@@ -7,11 +7,11 @@ from bs4 import BeautifulSoup
 from requests import get
 from time import sleep,time
 from random import randint
-from IPython.core.display import clear_output
 import string
 import warnings
 import csv
 import logging
+import os
 logging.basicConfig(filename='logging/metacritic_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 logging.getLogger().setLevel(logging.INFO)
 
@@ -56,8 +56,8 @@ for letter in alphabet:
         # Update progress bar and wait
         requests +=1
         elapsed_time = time() - start_time
+        os.system('clear')
         print('Request: {}; Frequency: {} requests/s'.format(requests, requests/elapsed_time))
-        clear_output(wait = True)
 
         # We only care about the divs that have the movie name
         tv_show_containers = html_soup.find_all('div', {'class':'product_wrap'})
@@ -84,8 +84,8 @@ for letter in alphabet:
             # Finally, user score
             userscore = show.find(class_='product_avguserscore').find(class_='textscore').text.strip()
             if (userscore == 'tbd'):
-                logging.warning("The show, " + title + " has no userscore so we will skip it.")
-                continue
+                logging.warning("The show, " + title + " has no userscore so we set it to 0.")
+                userscore = 0
 
             row = (title, metascore, userscore)
             tv_shows.append(row)    

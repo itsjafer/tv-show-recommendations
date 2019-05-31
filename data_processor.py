@@ -24,23 +24,16 @@ class DataProcessor:
         info = info.append(pd.DataFrame(df.astype(bool).sum()).T.rename(index={0:'valid values'}))
         return info
 
-
-    def count_word(self, df, ref_col, liste):
-        # This function was written by Fabien Daniel
-        keyword_count = dict()
-        for s in liste: keyword_count[s] = 0
-        for liste_keywords in df[ref_col]:        
-            if type(liste_keywords) == float and pd.isnull(liste_keywords): continue        
-            for s in [s for s in liste_keywords if s in liste]: 
-                if pd.notnull(s): keyword_count[s] += 1
-        keyword_occurences = []
-        for k,v in keyword_count.items():
-            keyword_occurences.append([k,v])
-        keyword_occurences.sort(key = lambda x:x[1], reverse = True)
-        return keyword_occurences, keyword_count
-
     # We put an emphasis on keywords, cast, and details
     def create_soup(self, x):
+        """This function compiles all features of a row into a single column to be used to find similarities
+        
+        Arguments:
+            x {DataFrame row} -- The row upon which to compile similarities
+        
+        Returns:
+            String -- a space delimited string of features describing the row
+        """
         keywords = x['keywords'] * 15
         details = x['details'] * 5
         cast = x['cast'] * 10
@@ -49,6 +42,14 @@ class DataProcessor:
 
     # Function to convert all strings to lower case and strip names of spaces
     def clean_data(self, x):
+        """Converts a column into lowercase without spaces and no puncutation
+        
+        Arguments:
+            x {List | String} -- The object to be cleaned
+        
+        Returns:
+            List | String -- Cleaned object
+        """
         translator = str.maketrans('', '', string.punctuation)
 
         if isinstance(x, list):
@@ -61,6 +62,14 @@ class DataProcessor:
 
 
     def train_model(self, df_analysis):
+        """Finds pairwise cosine similarities between all TV Shows and saves it to a given DataFrame
+        
+        Arguments:
+            df_analysis {DataFrame} -- The DataFrame of TV Shows to be trained on
+        
+        Returns:
+            DataFrame -- The same DataFrame but with an added similarity column for each movie
+        """
         print('Created a vectorizer of all english words')
         count = CountVectorizer(stop_words='english')
 
@@ -76,8 +85,18 @@ class DataProcessor:
 
         return df_analysis
 
+
     def get_similar(self, df_analysis, title):
+        """Finds the most similar tv shows to a given tv show
         
+        Arguments:
+            df_analysis {DataFrame} -- The dataframe that is going to be used to find similarities
+            title {String} -- The TV Show to find similar shows to
+        
+        Returns:
+            DataFrame -- DataFrame with only rows of similar titles
+            List -- A list of all the similarity scores of each title
+        """
         indices = pd.Series(df_analysis.index, index=df_analysis['title'])
 
         # Get the index of the show that matches the title
@@ -98,7 +117,16 @@ class DataProcessor:
         # Return the top 30 most similar movies
         return df_analysis.iloc[show_indices].copy(), sim_scores
 
-    def assign_score(self, top_shows, sim_scores):
+    def predict_score(self, top_shows, sim_scores):
+        """Predicts the recommendation score based on similarity and ratings
+        
+        Arguments:
+            top_shows {DataFrame} -- The DataFrame with only rows related to the most similar TV Shows
+            sim_scores {List} -- A list of all the similarity scores of each title
+        
+        Returns:
+            DataFrame -- The same DataFrame but with an added score column
+        """
         # Add similarity scores
         for i in sim_scores:
             top_shows.loc[i[0], 'similarity'] = i[1]
@@ -119,7 +147,16 @@ class DataProcessor:
 
         return top_shows.copy()
 
+
     def convert_rating_to_category(self, x):
+        """Convert rating levels to a category for easy use in soups
+        
+        Arguments:
+            x {Integer} -- The rating of a TV Show
+        
+        Returns:
+            String -- description of the rating in words
+        """
         rating = x
         result = str()
         if rating > 9:
@@ -134,8 +171,13 @@ class DataProcessor:
             result = "bad"
         return result
 
+
     def load_model(self):
+        """Loads the model from a csv into a DataFrame and does some basic cleaning, analysis, and training
         
+        Returns:
+            DataFrame -- Trained model based on the data used
+        """
         # We load the csv into a dataframe
         df = self.load_tv_shows('data/tv_shows_with_features.csv')
 
@@ -160,15 +202,6 @@ class DataProcessor:
         print('\nShape:', df_analysis.shape)
         print()
         print(self.inspect_data(df_analysis))
-
-        keywords = set()
-
-        for keywords_list in df_analysis['keywords']:
-            keywords = keywords.union(keywords_list)
-
-        print('\nPrinting most popular keywords...\n')
-        keyword_occurences, count = self.count_word(df, 'keywords', keywords)
-        print(keyword_occurences[:10])
         print()
 
         print('Cleaning Data...\n')
