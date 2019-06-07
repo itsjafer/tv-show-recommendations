@@ -20,6 +20,7 @@ import string
 import warnings
 import csv
 import logging
+from multiprocessing import Pool
 
 logging.basicConfig(filename='logging/imdb_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 logging.getLogger().setLevel(logging.INFO)
@@ -37,25 +38,18 @@ tv_shows = list()
 tv_shows_with_features = list()
 
 columns = ('title', 'metascore', 'userscore', 'link', 'cast', 'details', 'num_seasons', 'user_rating', 'num_ratings', 'keywords', 'runtime', 'synopsis', 'plot')
-with open('data/tv_shows_with_features.csv', 'a') as f:
-            csv_writer = csv.writer(f)
-            csv_writer.writerow(columns)
 
-# Get list of tv show names from csv
-with open("data/tv_shows.csv", 'r') as f:
-    csv_reader = csv.reader(f, delimiter=',')
-    tv_shows = list(csv_reader)
-
-for show in tv_shows:
-    logging.info("Scraping information for show: " + (show[0]))
+# Returns the imdb page of a given show
+def get_imdb_page(show):
+    logging.info("Scraping information for show: " + (show))
     # We want to query imdb one time
-    url = 'https://www.imdb.com/search/title?title=' + show[0] + '&title_type=tv_series'
+    url = 'https://www.imdb.com/search/title?title=' + show + '&title_type=tv_series'
     # Making a response and parsing it
     response = get(url, headers=headers)
 
     if response.status_code != 200:
         logging.warning('Received status code, ' + str(response.status_code))
-        break
+        raise Exception("Received a non-200 status code!")
 
     parser = HTMLParser(response.text)
 
@@ -68,16 +62,20 @@ for show in tv_shows:
     # We only care about the divs that have the movie name
     # imdb_page has the link to the tv show's imdb page
     if (len(parser.css(".lister-item-header a")) <= 0) :
-        logging.warning('Did not find any results for: ' + show[0])
-        continue
+        logging.warning('Did not find any results for: ' + show)
+        raise Exception("Did not find a valif imdb page")
     imdb_page = "https://www.imdb.com" + parser.css_first(".lister-item-header a").attributes['href']
 
+    return imdb_page
+
+
+def get_features(show, imdb_page):
     # Now we want to do the same thing as before and get features
     # Some code duplication here unfortunately
     response = get(imdb_page, headers=headers)
     if response.status_code != 200:
         logging.warning('Received status code, ' + str(response.status_code))
-        break
+        raise Exception('Wrong status code!')
 
     parser = HTMLParser(response.text)
 
@@ -90,7 +88,7 @@ for show in tv_shows:
     if title != foundTitle:
         logging.warning("Skipping show because we didn't find an exact match. Expected: " + show[0].strip() + \
              ". Got: " + parser.css_first('.title_wrapper h1').text().strip())
-        continue
+        raise Exception('Could not find an exact match for the show!')
 
     # Update progress bar and wait
     requests +=1
@@ -101,12 +99,12 @@ for show in tv_shows:
     # Check if number of votes is valid
     if len(parser.css('[itemprop=ratingCount]')) <= 0:
         logging.warning("Skipping show because it doesn't have a rating")
-        continue
+        raise Exception('No rating for the show')
 
     num_ratings = float(parser.css_first('[itemprop=ratingCount]').text().replace(',' , '').strip())
     if num_ratings < 1000:
         logging.warning("Skipping show because it has " + str(num_ratings) + " < 1000 ratings")
-        continue
+        raise Exception('Not enough votes for this show')
 
     # Number of seasons
     if (len(parser.css('.seasons-and-year-nav')) <= 0):
@@ -176,11 +174,52 @@ for show in tv_shows:
 
     # Now we need to make a row
     row = (show[0], show[1], show[2], imdb_page, cast, details, num_seasons, user_rating, num_ratings, keywords, length, synopsis, plot)
+
+    return row
+
+
+def scrape_data(show):
+    try:
+        imdb_page = get_imdb_page(show[0])
+    except:
+        logging.warning('Could not get imdb page for show, ' + show[0])
+        return
+        
+    try:
+        row = get_features(show, imdb_page)
+    except:
+        logging.warning('Could not get features for the show, ' + show[0])
+        return
+
     logging.info("Finished scraping, " + show[0] + ": " + str(row))
+
     tv_shows_with_features.append(row)
 
-with open('data/tv_shows_with_features.csv', 'a') as f:
-    csv_writer = csv.writer(f)
-    csv_writer.writerows(tv_shows_with_features)
-    logging.info("Wrote information to csv")
+if __name__ == "__main__":
+    with open('data/tv_shows_with_features.csv', 'a') as f:
+                csv_writer = csv.writer(f)
+                csv_writer.writerow(columns)
+
+    # Get list of tv show names from csv
+    with open("data/tv_shows.csv", 'r') as f:
+        csv_reader = csv.reader(f, delimiter=',')
+        tv_shows = list(csv_reader)
+
+    # Go through each tv show and get its information (we will parallelize this for speed)
+
+    # Run this with a pool of 5 agents having a chunksize of 3 until finished
+    agents = 4
+    chunksize = 3
+
+    with Pool(processes=agents) as pool:
+        result = pool.map(scrape_data, tv_shows, chunksize)
+    
+    # Output the result
+    print ('Result:  ' + str(result))
+
+    # Write the results to csv
+    with open('data/tv_shows_with_features.csv', 'a') as f:
+        csv_writer = csv.writer(f)
+        csv_writer.writerows(tv_shows_with_features)
+        logging.info("Wrote information to csv")
 

@@ -26,73 +26,76 @@ headers = \
 pages = [str(i) for i in range(0,20)]
 alphabet = list(string.ascii_lowercase)
 alphabet.append('#')
+file_names = ('movies', 'tv')
 
-# We use this to keep track of time and requests
-start_time = time()
-requests = 0
-row = ('title', 'metascore', 'userscore')
-with open('data/tv_shows.csv', 'a') as f:
-    csv_writer = csv.writer(f)
-    csv_writer.writerow(row)
+for name in file_names:
 
-tv_shows = list()
+    # We use this to keep track of time and requests
+    start_time = time()
+    requests = 0
+    row = ('title', 'metascore', 'userscore')
+    with open('data/' + name + '.csv', 'a') as f:
+        csv_writer = csv.writer(f)
+        csv_writer.writerow(row)
 
-for letter in alphabet:
-    logging.info("Looking at all shows that start with: " + letter)
-    for page in pages:
-        logging.info("Looking at page " + page)
-        # Base URL
-        url = 'https://www.metacritic.com/browse/tv/title/all/' + letter + '?view=condensed&page=' + page
-        
-        # Making a response and parsing it
-        response = get(url, headers=headers)
+    tv_shows = list()
 
-        if response.status_code != 200:
-            warnings.warn('Received status code, ' + response.status_code)
-            break
+    for letter in alphabet:
+        logging.info("Looking at all shows that start with: " + letter)
+        for page in pages:
+            logging.info("Looking at page " + page)
+            # Base URL
+            url = 'https://www.metacritic.com/browse/' + name + '/title/all/' + letter + '?view=detailed&page=' + page
+            print(url)
+            # Making a response and parsing it
+            response = get(url, headers=headers)
 
-        html_soup = BeautifulSoup(response.text, 'html.parser')
+            if response.status_code != 200:
+                warnings.warn('Received status code, ' + response.status_code)
+                break
 
-        # Update progress bar and wait
-        requests +=1
-        elapsed_time = time() - start_time
-        os.system('clear')
-        print('Request: {}; Frequency: {} requests/s'.format(requests, requests/elapsed_time))
+            html_soup = BeautifulSoup(response.text, 'html.parser')
 
-        # We only care about the divs that have the movie name
-        tv_show_containers = html_soup.find_all('div', {'class':'product_wrap'})
+            # Update progress bar and wait
+            requests +=1
+            elapsed_time = time() - start_time
+            os.system('clear')
+            print('Request: {}; Frequency: {} requests/s'.format(requests, requests/elapsed_time))
 
-        # If we're reached the end of the pages, go to the next letter
-        if (len(tv_show_containers) == 0):
-            logging.info("No more results found on page " + page)
-            break
+            # We only care about the divs that have the movie name
+            tv_show_containers = html_soup.find_all('td', {'class':'clamp-summary-wrap'})
 
-        # Add the TV Shows
-        for show in tv_show_containers:
+            # If we're reached the end of the pages, go to the next letter
+            if (len(tv_show_containers) == 0):
+                logging.info("No more results found on page " + page)
+                break
 
-            # We need to get the name of the show
-            title = show.find(class_="basic_stat product_title").a.text.strip()
-            if (title.split(':')[-1].strip() == 'Season 1'):
-                title = title[:-10]
+            # Add the TV Shows
+            for show in tv_show_containers:
 
-            # Now let's get the metascore
-            metascore = show.find(class_='brief_metascore').find(class_='metascore_w').text.strip()
-            if (metascore == 'tbd'):
-                logging.warning("The show, " + title + " has no metascore. Setting to 0.")
-                metascore = 0
-            
-            # Finally, user score
-            userscore = show.find(class_='product_avguserscore').find(class_='textscore').text.strip()
-            if (userscore == 'tbd'):
-                logging.warning("The show, " + title + " has no userscore so we set it to 0.")
-                userscore = 0
+                # We need to get the name of the show
+                title = show.find(class_="title").h3.text.strip()
+                if (title.split(':')[-1].strip() == 'Season 1'):
+                    title = title[:-10]
 
-            row = (title, metascore, userscore)
-            tv_shows.append(row)    
-        if letter == '#':
-            break
+                # Now let's get the metascore
+                metascore = show.find(class_='brief_metascore').find(class_='metascore_w').text.strip()
+                if (metascore == 'tbd'):
+                    logging.warning("The show, " + title + " has no metascore. Setting to 0.")
+                    metascore = 0
+                
+                # Finally, user score
+                userscore = show.find(class_='product_avguserscore').find(class_='textscore').text.strip()
+                if (userscore == 'tbd'):
+                    logging.warning("The show, " + title + " has no userscore so we set it to 0.")
+                    userscore = 0
 
-with open('data/tv_shows.csv', 'a') as f:
-    csv_writer = csv.writer(f)
-    csv_writer.writerows(tv_shows)
-    logging.info("Wrote all rows to tv_shows.csv")
+                row = (title, metascore, userscore)
+                tv_shows.append(row)    
+            if letter == '#':
+                break
+
+    with open('data/' + name + '.csv', 'a') as f:
+        csv_writer = csv.writer(f)
+        csv_writer.writerows(tv_shows)
+        logging.info("Wrote all rows to " + name + ".csv")
