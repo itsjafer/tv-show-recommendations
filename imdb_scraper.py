@@ -201,7 +201,7 @@ if __name__ == "__main__":
                 csv_writer.writerow(columns)
 
     # Get list of tv show names from csv
-    with open("data/tv_shows.csv", 'r') as f:
+    with open("data/tv.csv", 'r') as f:
         csv_reader = csv.reader(f, delimiter=',')
         tv_shows = list(csv_reader)
 
