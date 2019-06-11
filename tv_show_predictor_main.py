@@ -14,24 +14,30 @@ show_data_processor = DataProcessor()
 
 def scrape_data():
     # delete any csv files that currently exist
-    os.remove("data/tv_shows.csv")
+    if (os.path.exists("data/tv.csv")):
+        os.remove("data/tv.csv")
 
     # run metacritic scraper
     import metacritic_scraper
 
     # delete related csv file
-    os.remove("data/tv_shows_with_features.csv")
+    if (os.path.exists("data/tv_shows_with_features.csv")):
+        os.remove("data/tv_shows_with_features.csv")
+
+    # delete log files
+    if (os.path.exists("logging/imdb_scraper.log")):
+        os.remove("logging/imdb_scraper.log")    
+        
+    if (os.path.exists("logging/metacritic_scraper.log")):
+        os.remove("logging/metacritic_scraper.log")
 
     # run imdb scraper
     import imdb_scraper
 
-if __name__ == "__main__":
-
-    result = input("Enter 'Y' if you want to scrape information'. Enter anything else to continue.")
-    if (result == 'Y'):
+def manual_loop():
+    result = input("Enter 'Y' if you want to scrape data")
+    if result == 'Y':
         scrape_data()
-    if (not os.path.isfile('cosine_model.pkl')):
-        print("No model found. Starting training process...")
         df_trained = show_data_processor.load_model()
     else:
         result = input("Enter 'Y' if you want to retrain the model.")
@@ -68,3 +74,12 @@ if __name__ == "__main__":
         print(top_shows[['title', 'score', 'user_rating', 'similarity', 'metascore', 'userscore']].head(10))
 
         print('\nPlease enter the title of a TV Show')
+
+if __name__ == "__main__":
+
+    print('Scraping data')
+    scrape_data()
+    if (os.path.exists("data/cosine_model.pkl")):
+        os.remove("data/cosine_model.pkl")
+    print('Training Model')
+    df_trained = show_data_processor.load_model()

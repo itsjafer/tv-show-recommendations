@@ -26,7 +26,7 @@ headers = \
 pages = [str(i) for i in range(0,20)]
 alphabet = list(string.ascii_lowercase)
 alphabet.append('#')
-file_names = ('movies', 'tv')
+file_names = ('tv',)
 
 for name in file_names:
 
@@ -45,13 +45,13 @@ for name in file_names:
         for page in pages:
             logging.info("Looking at page " + page)
             # Base URL
-            url = 'https://www.metacritic.com/browse/' + name + '/title/all/' + letter + '?view=detailed&page=' + page
+            url = 'https://www.metacritic.com/browse/' + name + '/title/all/' + letter + '?view=condensed&page=' + page
             print(url)
             # Making a response and parsing it
             response = get(url, headers=headers)
 
             if response.status_code != 200:
-                warnings.warn('Received status code, ' + response.status_code)
+                warnings.warn('Received status code, ' + str(response.status_code))
                 break
 
             html_soup = BeautifulSoup(response.text, 'html.parser')
@@ -63,7 +63,7 @@ for name in file_names:
             print('Request: {}; Frequency: {} requests/s'.format(requests, requests/elapsed_time))
 
             # We only care about the divs that have the movie name
-            tv_show_containers = html_soup.find_all('td', {'class':'clamp-summary-wrap'})
+            tv_show_containers = html_soup.find_all('div', {'class':'product_wrap'})
 
             # If we're reached the end of the pages, go to the next letter
             if (len(tv_show_containers) == 0):
@@ -74,7 +74,7 @@ for name in file_names:
             for show in tv_show_containers:
 
                 # We need to get the name of the show
-                title = show.find(class_="title").h3.text.strip()
+                title = show.find(class_="basic_stat product_title").a.text.strip()
                 if (title.split(':')[-1].strip() == 'Season 1'):
                     title = title[:-10]
 

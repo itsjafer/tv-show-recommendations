@@ -142,7 +142,7 @@ class DataProcessor:
         top_shows['userscore_normal']=min_max_scaler.fit_transform(top_shows[['userscore']])
 
         # Create a score using user rating and similarity
-        top_shows['score'] = top_shows['similarity_normal'] * 0.16 + 0.33 * top_shows['user_rating_normal'] + 0.33 * top_shows['userscore_normal'] + 0.16 * top_shows['metascore_normal']
+        top_shows['score'] = top_shows['similarity_normal'] * 0.20 + 0.35 * top_shows['user_rating_normal'] + 0.37 * top_shows['userscore_normal'] + 0.08 * top_shows['metascore_normal']
         top_shows = top_shows.sort_values('score', ascending=False)
 
         return top_shows.copy()
