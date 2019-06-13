@@ -41,6 +41,8 @@ columns = ('title', 'metascore', 'userscore', 'link', 'cast', 'details', 'num_se
 
 # Returns the imdb page of a given show
 def get_imdb_page(show):
+    global requests
+
     logging.info("Scraping information for show: " + (show))
     # We want to query imdb one time
     url = 'https://www.imdb.com/search/title?title=' + show + '&title_type=tv_series'
@@ -70,6 +72,7 @@ def get_imdb_page(show):
 
 
 def get_features(show, imdb_page):
+    global requests
     # Now we want to do the same thing as before and get features
     # Some code duplication here unfortunately
     response = get(imdb_page, headers=headers)
@@ -181,44 +184,52 @@ def get_features(show, imdb_page):
 def scrape_data(show):
     try:
         imdb_page = get_imdb_page(show[0])
-    except:
+    except Exception as e:
         logging.warning('Could not get imdb page for show, ' + show[0])
+        print(str(e))
         return
         
     try:
         row = get_features(show, imdb_page)
-    except:
+    except Exception as e:
         logging.warning('Could not get features for the show, ' + show[0])
+        print(str(e))        
         return
 
     logging.info("Finished scraping, " + show[0] + ": " + str(row))
 
     tv_shows_with_features.append(row)
 
-with open('data/tv_shows_with_features.csv', 'a') as f:
-            csv_writer = csv.writer(f)
-            csv_writer.writerow(columns)
+    with open('data/tv_shows_with_features.csv', 'a') as f:
+        csv_writer = csv.writer(f)
+        csv_writer.writerow(row)
+        logging.info("Wrote information to csv")
 
-# Get list of tv show names from csv
-with open("data/tv.csv", 'r') as f:
-    csv_reader = csv.reader(f, delimiter=',')
-    tv_shows = list(csv_reader)
 
-# Go through each tv show and get its information (we will parallelize this for speed)
+def get_info():
 
-# Run this with a pool of 5 agents having a chunksize of 3 until finished
-agents = 4
-chunksize = 3
+    with open('data/tv_shows_with_features.csv', 'a') as f:
+                csv_writer = csv.writer(f)
+                csv_writer.writerow(columns)
 
-with Pool(processes=agents) as pool:
-    result = pool.map(scrape_data, tv_shows, chunksize)
+    # Get list of tv show names from csv
+    with open("data/tv.csv", 'r') as f:
+        csv_reader = csv.reader(f, delimiter=',')
+        tv_shows = list(csv_reader)
 
-# Output the result
-print ('Result:  ' + str(result))
+    # Go through each tv show and get its information (we will parallelize this for speed)
 
-# Write the results to csv
-with open('data/tv_shows_with_features.csv', 'a') as f:
-    csv_writer = csv.writer(f)
-    csv_writer.writerows(tv_shows_with_features)
-    logging.info("Wrote information to csv")
+    # Run this with a pool of 5 agents having a chunksize of 3 until finished
+    agents = 4
+    chunksize = 3
+
+    with Pool(processes=agents) as pool:
+        result = pool.map(scrape_data, tv_shows, chunksize)
+
+    # Output the result
+    print ('Result:  ' + str(result))
+
+if __name__ == "__main__":
+    get_info()
+
 

@@ -3,6 +3,7 @@
 
 import os
 from data_processor import DataProcessor
+from imdb_scraper import get_info
 import pandas as pd
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
@@ -17,8 +18,12 @@ def scrape_data():
     # if (os.path.exists("data/tv.csv")):
     #     os.remove("data/tv.csv")
 
-    # # run metacritic scraper
-    # import metacritic_scraper
+    if (os.path.exists("logging/metacritic_scraper.log")):
+        os.remove("logging/metacritic_scraper.log")
+
+    print('Scraping metacritic')
+    # run metacritic scraper
+    #import metacritic_scraper
 
     # delete related csv file
     if (os.path.exists("data/tv_shows_with_features.csv")):
@@ -28,11 +33,9 @@ def scrape_data():
     if (os.path.exists("logging/imdb_scraper.log")):
         os.remove("logging/imdb_scraper.log")    
         
-    if (os.path.exists("logging/metacritic_scraper.log")):
-        os.remove("logging/metacritic_scraper.log")
-
+    print('Scraping IMDB')
     # run imdb scraper
-    import imdb_scraper
+    get_info()
 
 def manual_loop():
     result = input("Enter 'Y' if you want to scrape data")
