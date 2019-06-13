@@ -20,10 +20,10 @@ if (not os.path.isfile('data/cosine_model.pkl')):
     df_trained = show_data_processor.load_model()
 else:
     df_trained = pickle.load(open('data/cosine_model.pkl', "rb"))
-app = Flask(__name__)
-cors = CORS(app, resources={r"/predict": {"origins": "*"}})
+application = Flask(__name__)
+cors = CORS(application, resources={r"/predict": {"origins": "*"}})
 
-@app.route('/predict', methods=['GET'])
+@application.route('/predict', methods=['GET'])
 def predict():
     title = request.args.get('title')
 
@@ -49,11 +49,11 @@ def predict():
     return prediction
 
 
-@app.route('/scrape', methods=['POST'])
+@application.route('/scrape', methods=['POST'])
 def scrape():
     print("Scraping data")
     import metacritic_scraper
     import imdb_scraper
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
