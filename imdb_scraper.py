@@ -22,6 +22,8 @@ import csv
 import logging
 from multiprocessing import Pool
 
+if not os.path.exists("logging"):
+    os.makedirs("logging")
 logging.basicConfig(filename='logging/imdb_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 logging.getLogger().setLevel(logging.INFO)
 

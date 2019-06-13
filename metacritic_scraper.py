@@ -12,6 +12,9 @@ import warnings
 import csv
 import logging
 import os
+
+if not os.path.exists("logging"):
+    os.makedirs("logging")
 logging.basicConfig(filename='logging/metacritic_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 logging.getLogger().setLevel(logging.INFO)
 
