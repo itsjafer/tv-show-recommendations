@@ -23,7 +23,7 @@ def scrape_data():
 
     print('Scraping metacritic')
     # run metacritic scraper
-    #import metacritic_scraper
+    import metacritic_scraper
 
     # delete related csv file
     if (os.path.exists("data/tv_shows_with_features.csv")):
