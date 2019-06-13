@@ -14,11 +14,11 @@ show_data_processor = DataProcessor()
 
 def scrape_data():
     # delete any csv files that currently exist
-    if (os.path.exists("data/tv.csv")):
-        os.remove("data/tv.csv")
+    # if (os.path.exists("data/tv.csv")):
+    #     os.remove("data/tv.csv")
 
-    # run metacritic scraper
-    import metacritic_scraper
+    # # run metacritic scraper
+    # import metacritic_scraper
 
     # delete related csv file
     if (os.path.exists("data/tv_shows_with_features.csv")):

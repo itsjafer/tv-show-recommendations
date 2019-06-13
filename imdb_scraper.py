@@ -195,31 +195,30 @@ def scrape_data(show):
 
     tv_shows_with_features.append(row)
 
-if __name__ == "__main__":
-    with open('data/tv_shows_with_features.csv', 'a') as f:
-                csv_writer = csv.writer(f)
-                csv_writer.writerow(columns)
+with open('data/tv_shows_with_features.csv', 'a') as f:
+            csv_writer = csv.writer(f)
+            csv_writer.writerow(columns)
 
-    # Get list of tv show names from csv
-    with open("data/tv.csv", 'r') as f:
-        csv_reader = csv.reader(f, delimiter=',')
-        tv_shows = list(csv_reader)
+# Get list of tv show names from csv
+with open("data/tv.csv", 'r') as f:
+    csv_reader = csv.reader(f, delimiter=',')
+    tv_shows = list(csv_reader)
 
-    # Go through each tv show and get its information (we will parallelize this for speed)
+# Go through each tv show and get its information (we will parallelize this for speed)
 
-    # Run this with a pool of 5 agents having a chunksize of 3 until finished
-    agents = 4
-    chunksize = 3
+# Run this with a pool of 5 agents having a chunksize of 3 until finished
+agents = 4
+chunksize = 3
 
-    with Pool(processes=agents) as pool:
-        result = pool.map(scrape_data, tv_shows, chunksize)
-    
-    # Output the result
-    print ('Result:  ' + str(result))
+with Pool(processes=agents) as pool:
+    result = pool.map(scrape_data, tv_shows, chunksize)
 
-    # Write the results to csv
-    with open('data/tv_shows_with_features.csv', 'a') as f:
-        csv_writer = csv.writer(f)
-        csv_writer.writerows(tv_shows_with_features)
-        logging.info("Wrote information to csv")
+# Output the result
+print ('Result:  ' + str(result))
+
+# Write the results to csv
+with open('data/tv_shows_with_features.csv', 'a') as f:
+    csv_writer = csv.writer(f)
+    csv_writer.writerows(tv_shows_with_features)
+    logging.info("Wrote information to csv")
 
