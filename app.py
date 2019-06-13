@@ -3,6 +3,7 @@
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from tv_show_predictor_main import scrape_data
 
 import os
 from data_processor import DataProcessor
@@ -14,12 +15,6 @@ from sys import stdin
 import json
 
 show_data_processor = DataProcessor()
-
-if (not os.path.isfile('data/cosine_model.pkl')):
-    print("No model found. Starting training process...")
-    df_trained = show_data_processor.load_model()
-else:
-    df_trained = pickle.load(open('data/cosine_model.pkl', "rb"))
 app = Flask(__name__)
 cors = CORS(app, resources={r"/predict": {"origins": "*"}})
 
@@ -51,9 +46,11 @@ def predict():
 
 @app.route('/scrape', methods=['POST'])
 def scrape():
-    print("Scraping data")
-    import metacritic_scraper
-    import imdb_scraper
 
 if __name__ == '__main__':
+    scrape_data()
+    if (os.path.exists("data/cosine_model.pkl")):
+        os.remove("data/cosine_model.pkl")
+    print('Training Model')
+    df_trained = show_data_processor.load_model()
     app.run(debug=True)
