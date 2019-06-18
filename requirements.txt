@@ -5,6 +5,7 @@ fuzzywuzzy==0.17.0
 gunicorn==19.9.0
 nltk
 pandas==0.24.2
+python-dotenv==0.10.3
 requests==2.22.0
 scikit-learn==0.21.2
 selectolax==0.1.13
