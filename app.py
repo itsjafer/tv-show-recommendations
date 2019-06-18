@@ -44,8 +44,8 @@ def predict():
     return prediction
 
 if __name__ == '__main__':
-    if (os.path.exists("data/cosine_model.pkl")):
-        os.remove("data/cosine_model.pkl")
-    print('Training Model')
-    df_trained = show_data_processor.load_model()
     app.run(debug=True)
+    # if (os.path.exists("data/cosine_model.pkl")):
+    #     os.remove("data/cosine_model.pkl")
+    # print('Training Model')
+    # df_trained = show_data_processor.load_model()
