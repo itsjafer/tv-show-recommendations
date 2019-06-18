@@ -17,6 +17,10 @@ import json
 show_data_processor = DataProcessor()
 app = Flask(__name__)
 cors = CORS(app, resources={r"/predict": {"origins": "*"}})
+if (os.path.exists("data/cosine_model.pkl")):
+    os.remove("data/cosine_model.pkl")
+print('Training Model')
+df_trained = show_data_processor.load_model()
 
 @app.route('/predict', methods=['GET'])
 def predict():
@@ -45,7 +49,3 @@ def predict():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    # if (os.path.exists("data/cosine_model.pkl")):
-    #     os.remove("data/cosine_model.pkl")
-    # print('Training Model')
-    # df_trained = show_data_processor.load_model()
