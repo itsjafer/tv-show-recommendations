@@ -15,11 +15,12 @@ show_data_processor = DataProcessor()
 
 def scrape_data():
     # delete any csv files that currently exist
-    # if (os.path.exists("data/tv.csv")):
-    #     os.remove("data/tv.csv")
+    if (os.path.exists("data/tv.csv")):
+        os.remove("data/tv.csv")
 
     if (os.path.exists("logging/metacritic_scraper.log")):
         os.remove("logging/metacritic_scraper.log")
+
 
     print('Scraping metacritic')
     # run metacritic scraper
@@ -46,7 +47,8 @@ def manual_loop():
         result = input("Enter 'Y' if you want to retrain the model.")
         if (result == 'Y'):
             # remove saved model
-            os.remove("data/cosine_model.pkl")
+            if os.path.exists('data/cosine_model.pkl'):
+                os.remove("data/cosine_model.pkl")
             df_trained = show_data_processor.load_model()
         else:
             df_trained = pickle.load(open('data/cosine_model.pkl', "rb"))
@@ -79,10 +81,10 @@ def manual_loop():
         print('\nPlease enter the title of a TV Show')
 
 if __name__ == "__main__":
-
-    print('Scraping data')
-    scrape_data()
-    if (os.path.exists("data/cosine_model.pkl")):
-        os.remove("data/cosine_model.pkl")
-    print('Training Model')
-    df_trained = show_data_processor.load_model()
+    manual_loop()
+    # print('Scraping data')
+    # scrape_data()
+    # if (os.path.exists("data/cosine_model.pkl")):
+    #     os.remove("data/cosine_model.pkl")
+    # print('Training Model')
+    # df_trained = show_data_processor.load_model()

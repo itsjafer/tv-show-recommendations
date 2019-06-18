@@ -44,8 +44,6 @@ def predict():
     return prediction
 
 if __name__ == '__main__':
-    print('Scraping Data')
-    scrape_data()
     if (os.path.exists("data/cosine_model.pkl")):
         os.remove("data/cosine_model.pkl")
     print('Training Model')
