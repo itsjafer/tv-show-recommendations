@@ -21,6 +21,8 @@ import warnings
 import csv
 import logging
 from multiprocessing import Pool
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
 
 if not os.path.exists("logging"):
     os.makedirs("logging")
@@ -47,7 +49,7 @@ def get_imdb_page(show):
 
     logging.info("Scraping information for show: " + (show))
     # We want to query imdb one time
-    url = 'https://www.imdb.com/search/title?title=' + show + '&title_type=tv_series'
+    url = 'https://www.imdb.com/search/title?title=' + show + '&title_type=tv_series,tv_miniseries&sort=popularity'
     # Making a response and parsing it
     response = get(url, headers=headers)
 
@@ -90,7 +92,7 @@ def get_features(show, imdb_page):
     title = str.lower(show[0].replace(" ", "")).translate(translator)
     foundTitle = str.lower(parser.css_first('.title_wrapper h1').text().strip().replace(" ", "")).translate(translator)
     # Check equality
-    if title != foundTitle:
+    if fuzz.ratio(title, foundTitle) < 0.9:
         logging.warning("Skipping show because we didn't find an exact match. Expected: " + show[0].strip() + \
              ". Got: " + parser.css_first('.title_wrapper h1').text().strip())
         raise Exception('Could not find an exact match for the show!')

@@ -81,10 +81,10 @@ def manual_loop():
         print('\nPlease enter the title of a TV Show')
 
 if __name__ == "__main__":
-    manual_loop()
-    # print('Scraping data')
-    # scrape_data()
-    # if (os.path.exists("data/cosine_model.pkl")):
-    #     os.remove("data/cosine_model.pkl")
-    # print('Training Model')
-    # df_trained = show_data_processor.load_model()
+    # manual_loop()
+    print('Scraping data')
+    scrape_data()
+    if (os.path.exists("data/cosine_model.pkl")):
+        os.remove("data/cosine_model.pkl")
+    print('Training Model')
+    df_trained = show_data_processor.load_model()

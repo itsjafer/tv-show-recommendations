@@ -25,8 +25,8 @@ headers = \
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     }
 
-# We will look at first 20 pages of every letter in the alphabet
-pages = [str(i) for i in range(0,20)]
+# We will look at first 100 pages of every letter in the alphabet
+pages = [str(i) for i in range(0,100)]
 alphabet = list(string.ascii_lowercase)
 alphabet.append('#')
 file_names = ('tv',)
