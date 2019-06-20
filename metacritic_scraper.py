@@ -15,6 +15,8 @@ import os
 
 if not os.path.exists("logging"):
     os.makedirs("logging")
+if not os.path.exists("data"):
+    os.makedirs("data")
 logging.basicConfig(filename='logging/metacritic_scraper.log', filemode='w', format='%(name)s - %(levelname)s - %(message)s')
 logging.getLogger().setLevel(logging.INFO)
 
