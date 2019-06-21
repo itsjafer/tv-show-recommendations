@@ -94,7 +94,9 @@ def get_features(show, imdb_page):
     title = str.lower(show[0].replace(" ", "")).translate(translator)
     foundTitle = str.lower(parser.css_first('.title_wrapper h1').text().strip().replace(" ", "")).translate(translator)
     # Check equality
-    if fuzz.ratio(title, foundTitle) < 0.9:
+    stringMatch = fuzz.ratio(title, foundTitle)
+    logging.info("Match between " + title + " and " + foundTitle + " is " + str(stringMatch))
+    if stringMatch < 80:
         logging.warning("Skipping show because we didn't find an exact match. Expected: " + show[0].strip() + \
              ". Got: " + parser.css_first('.title_wrapper h1').text().strip())
         raise Exception('Could not find an exact match for the show!')

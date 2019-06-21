@@ -142,7 +142,7 @@ class DataProcessor:
         top_shows['userscore_normal']=min_max_scaler.fit_transform(top_shows[['userscore']])
 
         # Create a score using user rating and similarity
-        top_shows['score'] = top_shows['similarity_normal'] * 0.20 + 0.35 * top_shows['user_rating_normal'] + 0.37 * top_shows['userscore_normal'] + 0.08 * top_shows['metascore_normal']
+        top_shows['score'] = top_shows['similarity_normal'] * 0.25 + 0.42 * top_shows['user_rating_normal'] + 0.17 * top_shows['userscore_normal'] + 0.16 * top_shows['metascore_normal']
         top_shows = top_shows.sort_values('score', ascending=False)
 
         return top_shows.copy()
@@ -191,11 +191,8 @@ class DataProcessor:
         df_analysis['plot'] = df_analysis['plot'].apply(lambda x: x.split(' '))
 
         # Fill in missing metascore values with the related imdb and userscore
-        df_analysis['metascore'] = np.where(df['metascore'] == 0, df['user_rating'], df['metascore'])
-
-        # Fill in missing userscore values with the related imdb and metascore
-        df_analysis['userscore'] = np.where(df['userscore'] == 0, df['user_rating'], df['userscore'])
-        df_analysis['userscore'] = np.where(df['userscore'] == 0, df['metascore'], df['userscore'])
+        df_analysis = df_analysis.replace({'0':np.nan, 0:np.nan})
+        df_analysis.fillna(df_analysis.median())
 
         # Now we do some analysis
         print('Analysis of Data:')
@@ -221,6 +218,6 @@ class DataProcessor:
 
         print('Saved model as cosine_model.pkl')
 
-        return df_trained
+        return df_trained.copy()
 
 

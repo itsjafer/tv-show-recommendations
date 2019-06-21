@@ -76,15 +76,15 @@ def manual_loop():
         
 
         print('Found the following TV Shows:\n')
-        print(top_shows[['title', 'score', 'user_rating', 'similarity', 'metascore', 'userscore']].head(10))
+        print(top_shows[['title', 'score', 'user_rating', 'similarity', 'metascore', 'userscore']].head(15))
 
         print('\nPlease enter the title of a TV Show')
 
 if __name__ == "__main__":
-    # manual_loop()
-    print('Scraping data')
-    scrape_data()
-    if (os.path.exists("data/cosine_model.pkl")):
-        os.remove("data/cosine_model.pkl")
-    print('Training Model')
+    manual_loop()
+    # print('Scraping data')
+    # scrape_data()
+    # if (os.path.exists("data/cosine_model.pkl")):
+    #     os.remove("data/cosine_model.pkl")
+    # print('Training Model')
     df_trained = show_data_processor.load_model()
