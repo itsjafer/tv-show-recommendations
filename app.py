@@ -1,3 +1,7 @@
+import logging
+logging.basicConfig(filename='logging/web_server.log', filemode='w', format='%(asctime)s: %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+logging.getLogger().setLevel(logging.INFO)
+
 # This file is a flask API that enables use of the model's
 # recommendations through other websites.
 
@@ -25,14 +29,14 @@ df_trained = show_data_processor.load_model()
 @app.route('/predict', methods=['GET'])
 def predict():
     title = request.args.get('title')
-
+    logging.info("Recieved request for title, " + title)
     # Find a tv show with the most similar title
     titles = df_trained['title'].tolist()
     similarTitle = process.extractOne(title, titles)[0]
     if (similarTitle != title):
-        print('Found "' + similarTitle + '", which was the closest match\n')
+        logging.info('Found "' + similarTitle + '", which was the closest match\n')
 
-    print('Finding tv shows similar to ' + similarTitle + '...\n')
+    logging.info('Finding tv shows similar to ' + similarTitle + '...\n')
     
     # Get a list of top 30 most similar shows
     top_shows, sim_scores = show_data_processor.get_similar(df_trained, similarTitle)
@@ -42,8 +46,9 @@ def predict():
     top_shows = top_shows.set_index('index')
     top_shows['similarTitle'] = similarTitle
 
-    print('Found the following TV Shows:\n')
+    logging.info('Found the following TV Shows:\n')
     prediction = (top_shows.head(15).to_json(orient='records'))
+    logging.info(top_shows.head(10))
 
     return prediction
 

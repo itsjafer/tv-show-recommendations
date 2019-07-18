@@ -1,5 +1,7 @@
 # Recommendation Engine
 
+![](demo.GIF)
+
 Using scraped data from Metacritic and IMDB, this model will take a TV Show as input and return 10 others that are recommended based on that show. Written in Python using mostly selectolax, scikit-learn, fuzzywuzzy, nltk, and pandas. 
 
 ## Model

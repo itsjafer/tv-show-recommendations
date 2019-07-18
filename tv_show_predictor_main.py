@@ -3,7 +3,6 @@
 
 import os
 from data_processor import DataProcessor
-from imdb_scraper import get_info
 import pandas as pd
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process

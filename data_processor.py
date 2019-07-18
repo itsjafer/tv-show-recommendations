@@ -142,7 +142,9 @@ class DataProcessor:
         top_shows['userscore_normal']=min_max_scaler.fit_transform(top_shows[['userscore']])
 
         # Create a score using user rating and similarity
-        top_shows['score'] = top_shows['similarity_normal'] * 0.25 + 0.42 * top_shows['user_rating_normal'] + 0.17 * top_shows['userscore_normal'] + 0.16 * top_shows['metascore_normal']
+        # TODO: the metascore calculation is quite flawed as it only looks at season 1 of each show
+        #       so for now we won't include it in the score calculation
+        top_shows['score'] = top_shows['similarity_normal'] * 0.3 + 0.45 * top_shows['user_rating_normal'] + 0.25 * top_shows['userscore_normal']
         top_shows = top_shows.sort_values('score', ascending=False)
 
         return top_shows.copy()
@@ -214,7 +216,7 @@ class DataProcessor:
 
         print('Trained!')
 
-        pickle.dump(df_trained, open('cosine_model.pkl', "wb"))
+        pickle.dump(df_trained, open('data/cosine_model.pkl', "wb"))
 
         print('Saved model as cosine_model.pkl')
 
